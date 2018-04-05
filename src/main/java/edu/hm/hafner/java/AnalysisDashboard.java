@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * Entry point for all web requests. Also responsible to start the Spring Boot Application.
+ * Entry point for this Spring Boot Application.
  *
  * @author Ullrich Hafner
  */
