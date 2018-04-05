@@ -1,0 +1,87 @@
+.jumbotron {
+    background: #80afbf;
+    color: black;
+    padding-bottom: 80px;
+}
+
+.jumbotron .btn-primary {
+    color: #757172
+}
+
+.jumbotron .btn-primary:hover {
+    color: #d24939;
+}
+
+.jumbotron .btn-default {
+    color: #757172
+}
+
+.jumbotron .btn-default:hover {
+    color: #4b758b;
+}
+
+.jumbotron p {
+    color: #757172;
+    max-width: 75%;
+    margin: 1em auto 2em;
+}
+
+.navbar + .jumbotron {
+    margin-top: -20px;
+}
+
+.jumbotron .logo img {
+    max-width: 100%;
+}
+
+.alert-info {
+    background-color: #d24939;
+    border-color: #355654;
+    color: #f7f1da;
+}
+
+.alert-info .alert-link {
+    color: #d9d8d6;
+}
+
+.card-title {
+    color: #757172;
+}
+
+/* Font awesome icons float right */
+.icon-right {
+    float: right;
+    color: #757172;
+    position: absolute;
+    right: 25px;
+    top: 10px;
+}
+
+.priority-high {
+    background-color: #f5c6cb;
+}
+
+.priority-high--hover:hover {
+    background-color: #f5929f;
+}
+
+.priority-normal {
+    background-color: #ffeeba;
+}
+
+.priority-normal--hover:hover {
+    background-color: #ffeb75;
+}
+
+.priority-low {
+    background-color: #b8daff;
+}
+
+.priority-low--hover:hover {
+    background-color: #53bdff;
+}
+
+/* Mouse cursor pointer for clicking on doughnut charts */
+.graph-cursor-pointer {
+    cursor: pointer;
+}
