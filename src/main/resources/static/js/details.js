@@ -4,7 +4,10 @@ $(document).ready(
         Chart.defaults.global.elements.rectangle.borderColor = '#355564';
         Chart.defaults.global.elements.rectangle.borderWidth = 1;
 
-        $.get("ajax/categories", {id: "id-is-not-available-yet"},
+        var origin = $('#origin').text();
+        var reference = $('#reference').text();
+
+        $.get("ajax/categories", {origin: origin, reference: reference},
             function (categories) {
                 new Chart($("#categories-chart"), {
                     type: 'horizontalBar',
@@ -17,7 +20,7 @@ $(document).ready(
                     }
                 });
             });
-        $.get("ajax/types", {id: "id-is-not-available-yet"},
+        $.get("ajax/types", {origin: origin, reference: reference},
             function (types) {
                 new Chart($("#types-chart"), {
                     type: 'horizontalBar',
@@ -30,5 +33,8 @@ $(document).ready(
                     }
                 });
             });
+
+        var detailsTabs = $('#tab-details');
+        detailsTabs.find('li:first-child a').tab('show');
     });
 
