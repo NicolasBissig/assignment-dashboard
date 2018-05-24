@@ -22,9 +22,17 @@ import edu.hm.hafner.java.uc.IssuesService;
  */
 @Controller
 public class UploadController {
+    static final String FILENAME_DUMMY = "<<uploaded file>>";
+
     @SuppressWarnings("InstanceVariableMayNotBeInitialized")
     private final IssuesService issuesService;
 
+    /**
+     * Creates a new instance of {@link UploadController}.
+     *
+     * @param issuesService
+     *         service to access the service layer
+     */
     @Autowired
     public UploadController(final IssuesService issuesService) {
         this.issuesService = issuesService;
@@ -43,19 +51,25 @@ public class UploadController {
      * @param tool
      *         the ID of the static analysis tool
      * @param model
+     *         UI model, will be filled with {@code origin} and {@code  reference}
+     *
      * @return name of the details view
      */
     @RequestMapping(path = "/issues", method = RequestMethod.POST)
-    String upload(@RequestParam("file") final MultipartFile file, @RequestParam("tool") final String tool,
+    String upload(@RequestParam("file") final MultipartFile file,
+            @RequestParam("tool") final String tool,
+            @RequestParam("reference") final String reference,
             final Model model) {
         try {
-            Issues<Issue> issues = issuesService.parse(tool, file.getInputStream());
+            Issues<Issue> issues = issuesService.parse(tool, file.getInputStream(), reference);
+
             model.addAttribute("origin", issues.getOrigin());
             model.addAttribute("reference", issues.getReference());
+
             return "details";
         }
         catch (IOException e) {
-            throw new ParsingException(e, "<<uploaded file>>");
+            throw new ParsingException(e, FILENAME_DUMMY);
         }
     }
 }

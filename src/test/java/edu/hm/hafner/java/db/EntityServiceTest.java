@@ -1,5 +1,6 @@
 package edu.hm.hafner.java.db;
 
+import javax.persistence.EntityManager;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.UUID;
@@ -43,8 +44,7 @@ class EntityServiceTest {
 
     @Test
     void selectNotExistingIssueShouldReturnAnEmptyOptional() {
-        EntityService sut = new EntityService(mock(IssueRepository.class), mock(IssuesRepository.class),
-                mock(LineRangeRepository.class), MAPPER);
+        EntityService sut = createEntityService(mock(IssueRepository.class), mock(LineRangeRepository.class));
 
         Optional<Issue> issue = sut.select(EXAMPLE_UUID);
 
@@ -54,8 +54,7 @@ class EntityServiceTest {
     @Test
     void selectExistingIssueShouldReturnTheIssue() {
         IssueRepository issueRepository = mock(IssueRepository.class);
-        EntityService sut = new EntityService(issueRepository, mock(IssuesRepository.class),
-                mock(LineRangeRepository.class), MAPPER);
+        EntityService sut = createEntityService(issueRepository, mock(LineRangeRepository.class));
 
         IssueEntity entity = new IssueEntity();
         entity.setId(EXAMPLE_UUID);
@@ -70,8 +69,7 @@ class EntityServiceTest {
 
     @Test
     void updateNotExistingIssueShouldReturnAnEmptyOptional() {
-        EntityService sut = new EntityService(mock(IssueRepository.class), mock(IssuesRepository.class),
-                mock(LineRangeRepository.class), MAPPER);
+        EntityService sut = createEntityService(mock(IssueRepository.class), mock(LineRangeRepository.class));
         Issue issue = new IssueBuilder().build();
 
         Optional<Issue> result = sut.update(issue);
@@ -83,7 +81,7 @@ class EntityServiceTest {
     void updateExistingIssue() {
         IssueRepository issueRepository = mock(IssueRepository.class);
         LineRangeRepository rangesRepository = mock(LineRangeRepository.class);
-        EntityService sut = new EntityService(issueRepository, mock(IssuesRepository.class), rangesRepository, MAPPER);
+        EntityService sut = createEntityService(issueRepository, rangesRepository);
 
         String newFilename = "new-filename";
 
@@ -104,10 +102,10 @@ class EntityServiceTest {
     }
 
     @Test
-    void insertNotExistingIssueShouldReturnAnEmptyOptional() {
+    void insertIssueWithLineRanges() {
         IssueRepository issueRepository = mock(IssueRepository.class);
         LineRangeRepository rangesRepository = mock(LineRangeRepository.class);
-        EntityService sut = new EntityService(issueRepository, mock(IssuesRepository.class), rangesRepository, MAPPER);
+        EntityService sut = createEntityService(issueRepository, rangesRepository);
         Issue issue = new IssueBuilder().setLineRanges(RANGES).build();
 
         when(rangesRepository.findById("1-2")).thenReturn(Optional.of(new LineRangeEntity(1, 2)));
@@ -123,7 +121,7 @@ class EntityServiceTest {
 
     @Test
     void selectNotExistingIssueaShouldReturnAnEmptyOptional() {
-        EntityService sut = new EntityService(mock(IssueRepository.class), mock(IssuesRepository.class), mock(LineRangeRepository.class), MAPPER);
+        EntityService sut = createEntityService(mock(IssueRepository.class), mock(LineRangeRepository.class));
 
         Optional<Issues<Issue>> issue = sut.select(EXAMPLE_ORIGIN, EXAMPLE_REFERENCE);
 
@@ -134,7 +132,7 @@ class EntityServiceTest {
     void selectExistingIssuesShouldReturnTheIssue() {
         IssueRepository issueRepository = mock(IssueRepository.class);
         IssuesRepository issuesRepository = mock(IssuesRepository.class);
-        EntityService sut = new EntityService(issueRepository, issuesRepository, mock(LineRangeRepository.class), MAPPER);
+        EntityService sut = createEntityService(issueRepository, issuesRepository);
         when(issuesRepository.findById(new IssuesEntityId(EXAMPLE_ORIGIN, EXAMPLE_REFERENCE))).thenReturn(Optional.of(MAPPER.map(ISSUES)));
 
         Optional<Issues<Issue>> optionalResult = sut.select(EXAMPLE_ORIGIN, EXAMPLE_REFERENCE);
@@ -147,8 +145,7 @@ class EntityServiceTest {
 
     @Test
     void updateNotExistingIssuesShouldReturnAnEmptyOptional() {
-        EntityService sut = new EntityService(mock(IssueRepository.class), mock(IssuesRepository.class),
-                mock(LineRangeRepository.class), MAPPER);
+        EntityService sut = createEntityService(mock(IssueRepository.class), mock(LineRangeRepository.class));
 
         Optional<Issues<Issue>> result = sut.update(ISSUES);
 
@@ -159,8 +156,7 @@ class EntityServiceTest {
     void updateExistingIssues() {
         IssueRepository issueRepository = mock(IssueRepository.class);
         IssuesRepository issuesRepository = mock(IssuesRepository.class);
-        EntityService sut = new EntityService(issueRepository, issuesRepository, mock(LineRangeRepository.class),
-                MAPPER);
+        EntityService sut = createEntityService(issueRepository, issuesRepository);
         when(issuesRepository.findById(new IssuesEntityId(EXAMPLE_ORIGIN, EXAMPLE_REFERENCE))).thenReturn(Optional.of(MAPPER.map(ISSUES)));
         when(issueRepository.findById(FIRST_ISSUE.getId())).thenReturn(Optional.of(MAPPER.map(FIRST_ISSUE)));
 
@@ -178,8 +174,7 @@ class EntityServiceTest {
     void insertNotExistingIssues() {
         IssueRepository issueRepository = mock(IssueRepository.class);
         IssuesRepository issuesRepository = mock(IssuesRepository.class);
-        EntityService sut = new EntityService(issueRepository, issuesRepository, mock(LineRangeRepository.class),
-                MAPPER);
+        EntityService sut = createEntityService(issueRepository, issuesRepository);
         when(issueRepository.findById(FIRST_ISSUE.getId())).thenReturn(Optional.of(MAPPER.map(FIRST_ISSUE)));
 
         sut.insert(ISSUES);
@@ -190,5 +185,17 @@ class EntityServiceTest {
         verify(issueRepository, times(1)).save(MAPPER.map(SECOND_ISSUE));
         verifyNoMoreInteractions(issuesRepository);
         verifyNoMoreInteractions(issueRepository);
+    }
+
+    private EntityService createEntityService(final IssueRepository issueRepository,
+            final LineRangeRepository rangesRepository) {
+        return new EntityService(issueRepository, mock(IssuesRepository.class), rangesRepository,
+                MAPPER, mock(EntityManager.class));
+    }
+
+    private EntityService createEntityService(final IssueRepository issueRepository,
+            final IssuesRepository issuesRepository) {
+        return new EntityService(issueRepository, issuesRepository, mock(LineRangeRepository.class),
+                MAPPER, mock(EntityManager.class));
     }
 }

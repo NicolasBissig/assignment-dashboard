@@ -1,5 +1,6 @@
 package edu.hm.hafner.java.db;
 
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,12 @@ import edu.hm.hafner.util.NoSuchElementException;
 public class IssuesEntityService {
     private final EntityService entityService;
 
+    /**
+     * Creates a new instance of {@link IssuesEntityService}.
+     *
+     * @param entityService
+     *         the entity service to use to interact with the data base
+     */
     @Autowired
     public IssuesEntityService(final EntityService entityService) {
         this.entityService = entityService;
@@ -37,7 +44,7 @@ public class IssuesEntityService {
      */
     public Issues<Issue> save(final Issues<?> issues) {
         long duplicates = issues.stream()
-                .map(issue -> issue.getId())
+                .map(Issue::getId)
                 .filter(id -> entityService.select(id).isPresent())
                 .count();
         if (duplicates > 0) {
@@ -72,5 +79,26 @@ public class IssuesEntityService {
      */
     public Set<Issues<Issue>> findAll() {
         return entityService.selectAllIssues();
+    }
+
+    /**
+     * Returns a list of the references of all persisted reports.
+     *
+     * @return list of references
+     */
+    public List<String> findAllReferences() {
+        return entityService.findAllReferences();
+    }
+
+    /**
+     * Selects all issues with the specified reference. The matching issues will be ordered by origin.
+     *
+     * @param reference
+     *         reference of the desired issues
+     *
+     * @return the matching ordered list of issues
+     */
+    public List<Issues<Issue>> findByReference(final String reference) {
+        return entityService.selectByReference(reference);
     }
 }

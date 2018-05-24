@@ -1,6 +1,10 @@
 package edu.hm.hafner.java.db;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -10,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.LineRange;
 import static java.util.stream.Collectors.*;
 
 /**
@@ -26,18 +31,36 @@ public class EntityService {
     private final IssuesRepository issuesRepository;
     /** Repository to store and load LineRange objects. */
     private final LineRangeRepository rangesRepository;
-    /** Mapper to convert dto-object to entity-object and reverse. */
+    /** Mapper to convert dto-object to entity-object and vice versa. */
     private final EntityMapper mapper;
-    private long nextId = 1;
 
+    @PersistenceContext
+    private final EntityManager manager;
+
+    /**
+     * Creates a new instance of {@link EntityService}.
+     *
+     * @param issueRepository
+     *         JPA repository to store and load {@link Issue} objects
+     * @param issuesRepository
+     *         JPA repository to store and load {@link Issues} objects
+     * @param rangesRepository
+     *         JPA repository to store and load {@link LineRange} objects
+     * @param mapper
+     *         OR mapper convert dto-object to entity-object and vice versa
+     * @param manager
+     *         entity manager to use to build custom queries
+     */
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     public EntityService(final IssueRepository issueRepository, final IssuesRepository issuesRepository,
-            final LineRangeRepository rangesRepository, final EntityMapper mapper) {
+            final LineRangeRepository rangesRepository, final EntityMapper mapper,
+            final EntityManager manager) {
         this.issueRepository = issueRepository;
         this.issuesRepository = issuesRepository;
         this.rangesRepository = rangesRepository;
         this.mapper = mapper;
+        this.manager = manager;
     }
 
     /**
@@ -71,7 +94,6 @@ public class EntityService {
      * @return new instance of the issues with the values of the database
      */
     public Issues<Issue> insert(final Issues<?> issues) {
-        issues.setReference(String.valueOf(nextId++));
         IssuesEntity entity = mapper.map(issues);
         issues.stream()
                 .filter(issue -> !issueRepository.findById(issue.getId()).isPresent())
@@ -125,6 +147,31 @@ public class EntityService {
     }
 
     /**
+     * Selects all issues with the specified reference. The matching issues will be ordered by origin.
+     *
+     * @param reference
+     *         reference of the desired issues
+     *
+     * @return the matching ordered list of issues
+     */
+    public List<Issues<Issue>> selectByReference(final String reference) {
+        return issuesRepository.findByIdReferenceOrderByIdOrigin(reference).stream().map(mapper::map).collect(toList());
+
+    }
+
+    /**
+     * Selects all issues with the specified origin. The matching issues will be ordered by reference.
+     *
+     * @param origin
+     *         origin of the desired issues
+     *
+     * @return the matching ordered list of issues
+     */
+    public List<Issues<Issue>> selectByOrigin(final String origin) {
+        return issuesRepository.findByIdOriginOrderByIdReference(origin).stream().map(mapper::map).collect(toList());
+    }
+
+    /**
      * Update the issue in the database. If the issue is not present in the database an empty optional will be returned
      * and nothing else happens. Inserts all related LineRanges if they are not present in the database.
      *
@@ -168,5 +215,16 @@ public class EntityService {
             result = Optional.of(mapper.map(entity));
         }
         return result;
+    }
+
+    /**
+     * Returns a list of the references of all persisted reports.
+     *
+     * @return list of references
+     */
+    public List<String> findAllReferences() {
+        TypedQuery<String> query = manager.createQuery(
+                "SELECT i.id.reference FROM IssuesEntity AS i", String.class);
+        return query.getResultList();
     }
 }

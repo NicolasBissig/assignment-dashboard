@@ -1,5 +1,6 @@
 package edu.hm.hafner.java.uc;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
@@ -13,9 +14,9 @@ import org.apache.commons.io.input.BOMInputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import edu.hm.hafner.analysis.AbstractParser;
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.ParsingException;
 import edu.hm.hafner.analysis.parser.checkstyle.CheckStyleParser;
 import edu.hm.hafner.analysis.parser.pmd.PmdParser;
 import edu.hm.hafner.java.db.IssuesEntityService;
@@ -31,6 +32,12 @@ public class IssuesService {
     @SuppressWarnings("InstanceVariableMayNotBeInitialized")
     private final IssuesEntityService issuesEntityService;
 
+    /**
+     * Creates a new instance of {@link IssuesService}.
+     *
+     * @param issuesEntityService
+     *         service to access the DB layer
+     */
     @Autowired
     public IssuesService(final IssuesEntityService issuesEntityService) {
         this.issuesEntityService = issuesEntityService;
@@ -89,27 +96,34 @@ public class IssuesService {
      *         id of the static analysis tool
      * @param file
      *         the file to parse
+     * @param reference
+     *         the reference for this report
      *
      * @return the issues of the specified report
      */
-    public Issues<Issue> parse(final String id, final InputStream file) {
+    public Issues<Issue> parse(final String id, final InputStream file, final String reference) {
         Optional<AnalysisTool> analysisTool = findAllTools().stream()
                 .filter(tool -> tool.getId().equals(id))
                 .findFirst();
-        if (analysisTool.isPresent()) {
-            AnalysisTool tool = analysisTool.get();
-            Issues<?> issues = parse(tool.getParser(), file);
-            issues.setOrigin(tool.getId());
-            return issuesEntityService.save(issues);
+        try (InputStreamReader stream = asStream(file)) {
+            if (analysisTool.isPresent()) {
+                AnalysisTool tool = analysisTool.get();
+                Issues<?> issues = tool.getParser().parse(stream);
+                issues.setOrigin(tool.getId());
+                issues.setReference(reference);
+                return issuesEntityService.save(issues);
+            }
+            else {
+                throw new NoSuchElementException("No such tool found with id %s.", id);
+            }
         }
-        else {
-            throw new NoSuchElementException("No such tool found with id %s.", id);
+        catch (IOException e) {
+            throw new ParsingException(e);
         }
     }
 
-    private Issues<?> parse(final AbstractParser<?> parser, final InputStream file) {
-        // FIXME: this should be part of analysis-model
-        return parser.parse(new InputStreamReader(new BOMInputStream(file), StandardCharsets.UTF_8));
+    private InputStreamReader asStream(final InputStream file) {
+        return new InputStreamReader(new BOMInputStream(file), StandardCharsets.UTF_8);
     }
 
     /**
