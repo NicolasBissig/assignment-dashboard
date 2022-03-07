@@ -23,7 +23,7 @@
     <javadoc-maven-plugin.version>3.3.2</javadoc-maven-plugin.version>
     <surefire.maven.plugin>2.19.1</surefire.maven.plugin>
     <junit.surefire.provider>1.1.0</junit.surefire.provider>
-    <modelmapper.version>1.1.0</modelmapper.version>
+    <modelmapper.version>3.0.0</modelmapper.version>
     <junit.version>5.8.2</junit.version>
     <junit.jupiter.version>5.1.0</junit.jupiter.version>
     <mockito.version>2.13.0</mockito.version>
