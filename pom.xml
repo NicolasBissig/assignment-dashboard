@@ -31,7 +31,7 @@
     <compiler-maven-plugin.version>3.7.0</compiler-maven-plugin.version>
     <error-prone.maven.plugin>2.8.2</error-prone.maven.plugin>
     <error.prone.version>2.2.0</error.prone.version>
-    <pmd-maven-plugin.version>3.9.0</pmd-maven-plugin.version>
+    <pmd-maven-plugin.version>3.16.0</pmd-maven-plugin.version>
     <pmd.version>6.1.0</pmd.version>
     <checkstyle-maven-plugin.version>3.0.0</checkstyle-maven-plugin.version>
     <checkstyle.version>8.10</checkstyle.version>
