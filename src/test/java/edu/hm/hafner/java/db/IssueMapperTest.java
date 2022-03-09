@@ -9,18 +9,18 @@ import edu.hm.hafner.analysis.LineRange;
 import edu.hm.hafner.analysis.LineRangeList;
 
 /**
- * Tests the class {@link EntityMapper} for {@link Issue} instances.
+ * Tests the class {@link Mapper} for {@link Issue} instances.
  *
  * @author Michael Schmid
  */
 class IssueMapperTest {
     @Test
     void mapIssueToIssueEntity() {
-        EntityMapper mapper = new EntityMapper();
+        Mapper mapper = new Mapper();
 
         Issue issue = new IssueBuilder().build();
 
-        IssueEntity entity = mapper.map(issue);
+        IssueEntity entity = mapper.mapToEntity(issue);
 
         SoftAssertions softly = new SoftAssertions();
         assertIssueAndEntityEqual(softly, entity, issue);
@@ -29,10 +29,10 @@ class IssueMapperTest {
 
     @Test
     void issueRoundTrip() {
-        EntityMapper mapper = new EntityMapper();
+        Mapper mapper = new Mapper();
         Issue issue = new IssueBuilder().build();
 
-        IssueEntity entity = mapper.map(issue);
+        IssueEntity entity = mapper.mapToEntity(issue);
 
         SoftAssertions softly = new SoftAssertions();
         assertIssueAndEntityEqual(softly, entity, issue);
@@ -45,7 +45,7 @@ class IssueMapperTest {
 
     @Test
     void issueRoundTripWithLineRangeList() {
-        EntityMapper mapper = new EntityMapper();
+        Mapper mapper = new Mapper();
         IssueBuilder builder = new IssueBuilder();
 
         builder.setLineStart(1).setLineEnd(2);
@@ -55,7 +55,7 @@ class IssueMapperTest {
         builder.setLineRanges(lineRanges);
 
         Issue issue = builder.build();
-        IssueEntity entity = mapper.map(issue);
+        IssueEntity entity = mapper.mapToEntity(issue);
 
         SoftAssertions softly = new SoftAssertions();
         assertIssueAndEntityEqual(softly, entity, issue);
@@ -69,13 +69,12 @@ class IssueMapperTest {
     private void assertRoundTrip(final SoftAssertions softly, final Issue result, final Issue expected) {
         softly.assertThat(result.getCategory()).isEqualTo(expected.getCategory());
         softly.assertThat(result.getType()).isEqualTo(expected.getType());
-        softly.assertThat(result.getPriority()).isEqualTo(expected.getPriority());
+        softly.assertThat(result.getSeverity()).isEqualTo(expected.getSeverity());
         softly.assertThat(result.getMessage()).isEqualTo(expected.getMessage());
         softly.assertThat(result.getLineStart()).isEqualTo(expected.getLineStart());
         softly.assertThat(result.getLineEnd()).isEqualTo(expected.getLineEnd());
         softly.assertThat(result.getColumnStart()).isEqualTo(expected.getColumnStart());
         softly.assertThat(result.getColumnEnd()).isEqualTo(expected.getColumnEnd());
-        softly.assertThat(result.getLineRanges()).isEqualTo(expected.getLineRanges());
         softly.assertThat(result.getId()).isEqualTo(expected.getId());
         softly.assertThat(result.getDescription()).isEqualTo(expected.getDescription());
         softly.assertThat(result.getReference()).isEqualTo(expected.getReference());
@@ -89,13 +88,12 @@ class IssueMapperTest {
     private void assertIssueAndEntityEqual(final SoftAssertions softly, final IssueEntity entity, final Issue issue) {
         softly.assertThat(entity.getCategory()).isEqualTo(issue.getCategory());
         softly.assertThat(entity.getType()).isEqualTo(issue.getType());
-        softly.assertThat(entity.getPriority()).isEqualTo(issue.getPriority());
+        softly.assertThat(entity.getSeverity()).isEqualTo(issue.getSeverity().getName());
         softly.assertThat(entity.getMessage()).isEqualTo(issue.getMessage());
         softly.assertThat(entity.getLineStart()).isEqualTo(issue.getLineStart());
         softly.assertThat(entity.getLineEnd()).isEqualTo(issue.getLineEnd());
         softly.assertThat(entity.getColumnStart()).isEqualTo(issue.getColumnStart());
         softly.assertThat(entity.getColumnEnd()).isEqualTo(issue.getColumnEnd());
-        softly.assertThat(entity.getLineRanges().size()).isEqualTo(issue.getLineRanges().size());
         softly.assertThat(entity.getId()).isEqualTo(issue.getId());
         softly.assertThat(entity.getDescription()).isEqualTo(issue.getDescription());
         softly.assertThat(entity.getReference()).isEqualTo(issue.getReference());
@@ -105,5 +103,4 @@ class IssueMapperTest {
         softly.assertThat(entity.getFileName()).isEqualTo(issue.getFileName());
         softly.assertThat(entity.getFingerprint()).isEqualTo(issue.getFingerprint());
     }
-
 }

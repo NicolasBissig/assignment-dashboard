@@ -1,14 +1,17 @@
 package edu.hm.hafner.java.uc;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Issue;
 
 /**
- * Model that provides the sizes of a set of {@link Issues}.
+ * Model that provides the sizes of a set of {@link Issue issues}.
  *
  * @author Ullrich Hafner
  * @see <a href="http://www.chartjs.org/docs/latest/charts/bar.html#dataset-properties">Bar Chart Dataset</a>
@@ -25,8 +28,16 @@ public class IssuePropertyDistribution {
      *         a mapping of properties to number of issues
      */
     public IssuePropertyDistribution(final Map<String, Integer> counts) {
+        this(counts.entrySet());
+    }
+
+    public IssuePropertyDistribution(Map.Entry<String, Integer>... entries) {
+        this(Arrays.asList(entries));
+    }
+
+    public IssuePropertyDistribution(final Collection<Entry<String, Integer>> entries) {
         List<Integer> values = new ArrayList<>();
-        for (Entry<String, Integer> entry : counts.entrySet()) {
+        for (Entry<String, Integer> entry : entries) {
             labels.add(entry.getKey());
             values.add(entry.getValue());
         }

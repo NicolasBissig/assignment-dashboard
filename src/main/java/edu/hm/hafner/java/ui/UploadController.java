@@ -1,7 +1,5 @@
 package edu.hm.hafner.java.ui;
 
-import java.io.IOException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,9 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Issues;
-import edu.hm.hafner.analysis.ParsingException;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.java.uc.IssuesService;
 
 /**
@@ -50,6 +46,8 @@ public class UploadController {
      *         the analysis report
      * @param tool
      *         the ID of the static analysis tool
+     * @param id
+     *         a unique ID for the report
      * @param model
      *         UI model, will be filled with {@code origin} and {@code  reference}
      *
@@ -58,18 +56,13 @@ public class UploadController {
     @RequestMapping(path = "/issues", method = RequestMethod.POST)
     String upload(@RequestParam("file") final MultipartFile file,
             @RequestParam("tool") final String tool,
-            @RequestParam("reference") final String reference,
+            @RequestParam("id") final String id,
             final Model model) {
-        try {
-            Issues<Issue> issues = issuesService.parse(tool, file.getInputStream(), reference);
+        Report issues = issuesService.parse(tool, file, id);
 
-            model.addAttribute("origin", issues.getOrigin());
-            model.addAttribute("reference", issues.getReference());
+        model.addAttribute("origin", issues.getId());
+        model.addAttribute("reference", issues.getOriginReportFile());
 
-            return "details";
-        }
-        catch (IOException e) {
-            throw new ParsingException(e, FILENAME_DUMMY);
-        }
+        return "details";
     }
 }

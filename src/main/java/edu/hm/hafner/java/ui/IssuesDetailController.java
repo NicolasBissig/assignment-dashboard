@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.java.uc.IssuePropertyDistribution;
 import edu.hm.hafner.java.uc.IssuesService;
 import edu.hm.hafner.java.uc.IssuesTable;
 
 /**
- * Provides detail information for a specific set of {@link Issues}.
+ * Provides detail information for a specific set of {@link Issue issues}.
  *
  * @author Ullrich Hafner
  */

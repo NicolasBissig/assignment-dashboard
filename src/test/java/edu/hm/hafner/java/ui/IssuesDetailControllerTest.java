@@ -2,10 +2,11 @@ package edu.hm.hafner.java.ui;
 
 import java.util.HashMap;
 
-import org.eclipse.collections.impl.factory.Maps;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import com.tngtech.archunit.thirdparty.com.google.common.collect.Maps;
 
 import edu.hm.hafner.java.uc.IssuePropertyDistribution;
 import edu.hm.hafner.java.uc.IssuesService;
@@ -27,7 +28,7 @@ class IssuesDetailControllerTest {
     private static final IssuePropertyDistribution EMPTY_DISTRIBUTION
             = new IssuePropertyDistribution(new HashMap<>());
     private static final IssuePropertyDistribution SINGLETON_DISTRIBUTION
-            = new IssuePropertyDistribution(Maps.fixedSize.of(LABEL, 1));
+            = new IssuePropertyDistribution(entry(LABEL, 1));
 
     @Test
     void shouldReturnJsonOfPropertiesDistribution() {

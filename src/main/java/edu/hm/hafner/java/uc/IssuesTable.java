@@ -3,10 +3,12 @@ package edu.hm.hafner.java.uc;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.Report;
+import edu.hm.hafner.analysis.Severity;
 
 /**
- * Model that provides the different sizes of a set of {@link Issues}.
+ * Model that provides the different sizes of a set of {@link Issue issues}.
  *
  * @author Ullrich Hafner
  * @see <a href="http://www.chartjs.org/docs/latest/charts/bar.html#dataset-properties">Bar Chart Dataset</a>
@@ -21,14 +23,15 @@ public class IssuesTable {
      * @param issues
      *         the set of issues that should be added
      */
-    public void addRow(final Issues<?> issues) {
+    public void addRow(final Report issues) {
         List<String> row = new ArrayList<>();
-        row.add(issues.getOrigin());
-        row.add(issues.getReference());
+        row.add(issues.getId());
+        row.add(issues.getName());
         row.add(String.valueOf(issues.getSize()));
-        row.add(String.valueOf(issues.getHighPrioritySize()));
-        row.add(String.valueOf(issues.getNormalPrioritySize()));
-        row.add(String.valueOf(issues.getLowPrioritySize()));
+        row.add(String.valueOf(issues.getSizeOf(Severity.ERROR)));
+        row.add(String.valueOf(issues.getSizeOf(Severity.WARNING_HIGH)));
+        row.add(String.valueOf(issues.getSizeOf(Severity.WARNING_NORMAL)));
+        row.add(String.valueOf(issues.getSizeOf(Severity.WARNING_LOW)));
 
         data.add(row);
     }

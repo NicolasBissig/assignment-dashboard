@@ -1,16 +1,16 @@
 package edu.hm.hafner.java.uc;
 
 import javax.annotation.PostConstruct;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileUrlResource;
 import org.springframework.stereotype.Component;
 
-import edu.hm.hafner.analysis.Issues;
-import edu.hm.hafner.analysis.parser.pmd.PmdParser;
+import edu.hm.hafner.analysis.Report;
+import edu.hm.hafner.analysis.registry.ParserRegistry;
+import edu.hm.hafner.java.MultipartFileReaderFactory;
 import edu.hm.hafner.java.db.EntityService;
 
 /**
@@ -46,7 +46,7 @@ public class IssuesTestData {
      *
      * @return the issues
      */
-    public Issues<?> createTestData() {
+    public Report createTestData() {
         return createTestData(TEST_PMD_FILE);
     }
 
@@ -58,25 +58,14 @@ public class IssuesTestData {
      *
      * @return the issues
      */
-    public Issues<?> createTestData(final String reportFileName) {
-        AnalysisTool pmd = new AnalysisTool("pmd", "Pmd", new PmdParser());
-
-        return readReport(pmd, getTestReport(reportFileName));
+    public Report createTestData(final String reportFileName) {
+        return new ParserRegistry().get("pmd")
+                .createParser()
+                .parse(new MultipartFileReaderFactory(getTestReport(reportFileName), reportFileName,
+                        StandardCharsets.UTF_8));
     }
 
-    private Issues<?> readReport(final AnalysisTool parser, final InputStream report) {
-        try (InputStreamReader reader = new InputStreamReader(report, StandardCharsets.UTF_8)) {
-            Issues<?> issues = parser.getParser().parse(reader);
-            issues.setReference("1");
-            issues.setOrigin(parser.getId());
-            return issues;
-        }
-        catch (IOException ignored) {
-            return new Issues<>();
-        }
-    }
-
-    private InputStream getTestReport(final String fileName) {
-        return IssuesTestData.class.getResourceAsStream(fileName);
+    private FileUrlResource getTestReport(final String fileName) {
+        return new FileUrlResource(Objects.requireNonNull(IssuesTestData.class.getResource(fileName)));
     }
 }

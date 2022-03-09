@@ -1,13 +1,13 @@
 package edu.hm.hafner.java.uc;
 
+import java.util.Optional;
+
 import org.junit.jupiter.api.Test;
 
 import com.google.gson.Gson;
 
-import edu.hm.hafner.analysis.Issue;
-import edu.hm.hafner.analysis.Issues;
+import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.java.db.EntityService;
-import edu.hm.hafner.java.db.IssuesEntityService;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -48,11 +48,11 @@ class IssuesServiceTest {
 
     private IssuesService createService() {
         IssuesTestData data = new IssuesTestData(mock(EntityService.class));
-        IssuesEntityService entityService = mock(IssuesEntityService.class);
-        Issues<Issue> issues = new Issues<>();
+        EntityService entityService = mock(EntityService.class);
+        Report issues = new Report();
         issues.addAll(data.createTestData());
 
-        when(entityService.findByPrimaryKey(anyString(), anyString())).thenReturn(issues);
+        when(entityService.selectReportByToolIdAndOriginReportFile(anyString(), anyString())).thenReturn(Optional.of(issues));
         return new IssuesService(entityService);
     }
 }
