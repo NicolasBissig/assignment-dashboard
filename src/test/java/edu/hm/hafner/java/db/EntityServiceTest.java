@@ -89,13 +89,14 @@ class EntityServiceTest {
         ReportRepository reportRepository = mock(ReportRepository.class);
         EntityService sut = createEntityService(issueRepository, reportRepository);
         when(issueRepository.findById(FIRST_ISSUE.getId())).thenReturn(Optional.of(MAPPER.mapToEntity(FIRST_ISSUE)));
+        ReportEntity entity = MAPPER.mapToEntity(ISSUES);
+        when(reportRepository.save(entity)).thenReturn(entity);
 
-        sut.insert(ISSUES);
+        Report saved = sut.insert(ISSUES);
+        assertThat(saved).isEqualTo(ISSUES);
 
-        verify(reportRepository, times(1)).save(MAPPER.mapToEntity(ISSUES));
-        verify(issueRepository, times(1)).findById(FIRST_ISSUE.getId());
-        verify(issueRepository, times(1)).findById(SECOND_ISSUE.getId());
-        verify(issueRepository, times(1)).save(MAPPER.mapToEntity(SECOND_ISSUE));
+        verify(reportRepository, times(1)).save(entity);
+
         verifyNoMoreInteractions(reportRepository);
         verifyNoMoreInteractions(issueRepository);
     }

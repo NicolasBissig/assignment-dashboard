@@ -81,9 +81,6 @@ public class EntityService {
      */
     public Report insert(final Report report) {
         ReportEntity entity = mapper.mapToEntity(report);
-//        report.stream()
-//                .filter(issue -> !issueRepository.findById(issue.getId()).isPresent())
-//                .forEach(this::insert);
         ReportEntity saved = reportRepository.save(entity);
         return mapper.map(saved);
     }
