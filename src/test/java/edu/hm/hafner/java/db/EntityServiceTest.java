@@ -80,7 +80,7 @@ class EntityServiceTest {
         assertThat(optionalResult.isPresent()).isTrue();
         assertThat(optionalResult.get().getId()).isEqualTo(EXAMPLE_ORIGIN);
         assertThat(optionalResult.get().getName()).isEqualTo(EXAMPLE_REFERENCE);
-        assertThat(optionalResult.get().iterator()).containsExactly(FIRST_ISSUE, SECOND_ISSUE);
+        assertThat(optionalResult.get().iterator()).toIterable().containsExactly(FIRST_ISSUE, SECOND_ISSUE);
     }
 
     @Test
