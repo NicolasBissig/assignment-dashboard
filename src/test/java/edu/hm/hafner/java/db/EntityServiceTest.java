@@ -20,7 +20,7 @@ import static org.mockito.Mockito.*;
  */
 class EntityServiceTest {
     private static final Mapper MAPPER = new Mapper();
-    private static final UUID EXAMPLE_UUID = UUID.fromString("ce856855-b91d-4ae7-b77a-7a30a699291e");
+    private static final int EXAMPLE_UUID = 1234;
     private static final String EXAMPLE_ORIGIN = "origin";
     private static final String EXAMPLE_REFERENCE = "1";
 
@@ -56,7 +56,6 @@ class EntityServiceTest {
         Optional<Issue> issue = sut.selectIssue(EXAMPLE_UUID);
 
         assertThat(issue.isPresent()).isTrue();
-        assertThat(issue.get().getId()).isEqualTo(EXAMPLE_UUID);
     }
 
     @Test
@@ -88,7 +87,7 @@ class EntityServiceTest {
         IssueRepository issueRepository = mock(IssueRepository.class);
         ReportRepository reportRepository = mock(ReportRepository.class);
         EntityService sut = createEntityService(issueRepository, reportRepository);
-        when(issueRepository.findById(FIRST_ISSUE.getId())).thenReturn(Optional.of(MAPPER.mapToEntity(FIRST_ISSUE)));
+        when(issueRepository.findById(1)).thenReturn(Optional.of(MAPPER.mapToEntity(FIRST_ISSUE)));
         ReportEntity entity = MAPPER.mapToEntity(ISSUES);
         when(reportRepository.save(entity)).thenReturn(entity);
 

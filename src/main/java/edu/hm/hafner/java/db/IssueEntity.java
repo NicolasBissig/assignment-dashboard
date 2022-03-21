@@ -2,10 +2,14 @@ package edu.hm.hafner.java.db;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.util.UUID;
+
+import org.hibernate.annotations.Type;
 
 /**
  * POJO to store a {@link IssueEntity} to the database.
@@ -13,10 +17,11 @@ import java.util.UUID;
  * @author Deniz Mardin
  */
 @Entity
-@Table(name = "issue")
+@Table(name = "issues")
 public class IssueEntity {
     @Id
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     private String category;
     private int columnStart;
     private int columnEnd;
@@ -84,7 +89,7 @@ public class IssueEntity {
             final String reference,
             final String severity,
             final String type) {
-        this.id = id;
+//        this.id = id;
         this.category = category;
         this.columnStart = columnStart;
         this.columnEnd = columnEnd;
@@ -127,7 +132,7 @@ public class IssueEntity {
      *
      * @return the UUID
      */
-    public UUID getId() {
+    public int getId() {
         return id;
     }
 
@@ -136,7 +141,7 @@ public class IssueEntity {
      *
      * @param id the UUID
      */
-    public void setId(final UUID id) {
+    public void setId(final int id) {
         this.id = id;
     }
 
@@ -451,7 +456,7 @@ public class IssueEntity {
         if (lineEnd != that.lineEnd) {
             return false;
         }
-        if (!id.equals(that.id)) {
+        if (id != that.id) {
             return false;
         }
         if (!category.equals(that.category)) {
@@ -492,7 +497,7 @@ public class IssueEntity {
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
+        int result = id;
         result = 31 * result + category.hashCode();
         result = 31 * result + columnStart;
         result = 31 * result + columnEnd;

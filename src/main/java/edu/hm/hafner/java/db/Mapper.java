@@ -115,14 +115,11 @@ public class Mapper {
     }
 
     @SuppressWarnings("checkstyle:ParameterNumber")
-    private Issue getIssue(final UUID id, final String category, final int columnEnd, final int columnStart,
+    private Issue getIssue(final int id, final String category, final int columnEnd, final int columnStart,
             final String description, final String fileName, final String fingerprint, final int lineEnd,
             final int lineStart, final String message, final String moduleName, final String origin, final String originName,
             final String packageName, final String reference, final String severity, final String type) {
         IssueBuilder issueBuilder = new IssueBuilder();
-        if (id != null) {
-            issueBuilder.setId(id);
-        }
 
         return issueBuilder
                 .setCategory(category)

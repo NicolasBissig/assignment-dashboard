@@ -23,14 +23,14 @@ import java.util.Objects;
 @Table(name = "report")
 public class ReportEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String toolId;
     private String toolName;
     private String originReportFile;
 
-    @OneToMany(mappedBy = "issues", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "issues", cascade = CascadeType.ALL)
     private List<IssueEntity> issues;
 
     ReportEntity(final String toolId, final String toolName, final String originReportFile) {

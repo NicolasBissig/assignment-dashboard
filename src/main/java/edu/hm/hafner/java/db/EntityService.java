@@ -7,7 +7,6 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -82,6 +81,7 @@ public class EntityService {
     public Report insert(final Report report) {
         ReportEntity entity = mapper.mapToEntity(report);
         ReportEntity saved = reportRepository.save(entity);
+
         return mapper.map(saved);
     }
 
@@ -102,7 +102,7 @@ public class EntityService {
      *
      * @return Optional with a new issue if it is present in the database else an empty optional.
      */
-    public Optional<Issue> selectIssue(final UUID id) {
+    public Optional<Issue> selectIssue(final Integer id) {
         return issueRepository.findById(id).map(mapper::map);
     }
 
@@ -123,7 +123,7 @@ public class EntityService {
      *
      * @return Optional with a new issue if it is present in the database else an empty optional.
      */
-    public Optional<Report> selectReport(final UUID id) {
+    public Optional<Report> selectReport(final int id) {
         return reportRepository.findById(id).map(mapper::map);
     }
 

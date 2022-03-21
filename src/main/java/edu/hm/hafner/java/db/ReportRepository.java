@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  *
  * @author Michael Schmid
  */
-public interface ReportRepository extends JpaRepository<ReportEntity, UUID> {
+public interface ReportRepository extends JpaRepository<ReportEntity, Integer> {
     /**
      * Selects all issues with the specified reference. The matching issues will be ordered by origin.
      *

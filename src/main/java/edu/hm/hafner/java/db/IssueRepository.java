@@ -9,5 +9,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  *
  * @author Michael Schmid
  */
-public interface IssueRepository extends JpaRepository<IssueEntity, UUID> {
+public interface IssueRepository extends JpaRepository<IssueEntity, Integer> {
 }

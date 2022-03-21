@@ -71,19 +71,17 @@ class IssuesMapperTest {
     }
 
     private void assertIssuesAndEntityEqual(final SoftAssertions softly, final ReportEntity entity, final Report issues) {
-        softly.assertThat(entity.getToolId()).isEqualTo(issues.getId());
         softly.assertThat(entity.getToolName()).isEqualTo(issues.getName());
         softly.assertThat(entity.getOriginReportFile()).isEqualTo(issues.getOriginReportFile());
     }
 
     private void assertRoundTrip(final SoftAssertions softly, final Report result, final Report expected) {
-        softly.assertThat(result.getId()).isEqualTo(expected.getId());
         softly.assertThat(result.getName()).isEqualTo(expected.getName());
         softly.assertThat(result.getSizeOf(Severity.WARNING_LOW)).isEqualTo(expected.getSizeOf(Severity.WARNING_LOW));
         softly.assertThat(result.getSizeOf(Severity.WARNING_NORMAL)).isEqualTo(expected.getSizeOf(Severity.WARNING_NORMAL));
         softly.assertThat(result.getSizeOf(Severity.WARNING_HIGH)).isEqualTo(expected.getSizeOf(Severity.WARNING_HIGH));
         softly.assertThat(result.stream().count()).isEqualTo((int)expected.stream().count());
 
-        assertThat(result.get(0)).isEqualToComparingFieldByFieldRecursively(expected.get(0));
+        assertThat(result.get(0)).usingRecursiveComparison().ignoringFields("id").isEqualTo(expected.get(0));
     }
 }
