@@ -1,5 +1,7 @@
 package edu.hm.hafner.java.ui;
 
+import java.nio.charset.StandardCharsets;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import edu.hm.hafner.analysis.Report;
+import edu.hm.hafner.java.MultipartFileReaderFactory;
 import edu.hm.hafner.java.uc.IssuesService;
 
 /**
@@ -19,6 +22,8 @@ import edu.hm.hafner.java.uc.IssuesService;
  */
 @Controller
 public class UploadController {
+    private static final String FILENAME_DUMMY = "<<uploaded file>>";
+
     @SuppressWarnings("InstanceVariableMayNotBeInitialized")
     private final IssuesService issuesService;
 
@@ -58,11 +63,18 @@ public class UploadController {
             @RequestParam("tool") final String tool,
             @RequestParam(value = "reference", required = false) final String reference,
             final Model model) {
-        Report report = issuesService.parse(tool, file, StringUtils.defaultIfBlank(reference, file.getOriginalFilename()));
+        Report report = issuesService.parse(tool, StringUtils.defaultIfBlank(reference, file.getOriginalFilename()),
+                getReaderFactory(file));
+        issuesService.save(report);
 
         model.addAttribute("tool", report.getId());
         model.addAttribute("reference", report.getOriginReportFile());
 
         return "details";
+    }
+
+    private MultipartFileReaderFactory getReaderFactory(final MultipartFile file) {
+        return new MultipartFileReaderFactory(file,
+                StringUtils.defaultIfBlank(file.getOriginalFilename(), FILENAME_DUMMY), StandardCharsets.UTF_8);
     }
 }

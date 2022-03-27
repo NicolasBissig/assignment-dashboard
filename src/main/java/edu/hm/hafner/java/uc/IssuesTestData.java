@@ -9,7 +9,6 @@ import org.springframework.core.io.FileUrlResource;
 import org.springframework.stereotype.Component;
 
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.analysis.registry.ParserRegistry;
 import edu.hm.hafner.java.MultipartFileReaderFactory;
 import edu.hm.hafner.java.db.EntityService;
 
@@ -21,16 +20,20 @@ public class IssuesTestData {
     private static final String TEST_PMD_FILE = "/test/pmd.xml";
 
     private final EntityService entityService;
+    private final IssuesService issuesService;
 
     /**
      * Creates a new instance of {@link IssuesTestData}.
      *
      * @param entityService
      *         the entity service to use to store the issues
+     * @param issuesService
+     *         service to access the service layer
      */
     @Autowired
-    public IssuesTestData(final EntityService entityService) {
+    public IssuesTestData(final EntityService entityService, final IssuesService issuesService) {
         this.entityService = entityService;
+        this.issuesService = issuesService;
     }
 
     /**
@@ -59,11 +62,8 @@ public class IssuesTestData {
      * @return the issues
      */
     public Report createTestData(final String reportFileName) {
-
-        return new ParserRegistry().get("pmd")
-                .createParser()
-                .parse(new MultipartFileReaderFactory(getTestReport(reportFileName), reportFileName,
-                        StandardCharsets.UTF_8));
+        return issuesService.parse("pmd", "Initial-Test-Report",
+                new MultipartFileReaderFactory(getTestReport(reportFileName), "Initial-Test-Report", StandardCharsets.UTF_8));
     }
 
     private FileUrlResource getTestReport(final String fileName) {

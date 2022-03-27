@@ -47,12 +47,13 @@ class IssuesServiceTest {
     }
 
     private IssuesService createService() {
-        IssuesTestData data = new IssuesTestData(mock(EntityService.class));
         EntityService entityService = mock(EntityService.class);
-        Report issues = new Report();
-        issues.addAll(data.createTestData());
+        IssuesService issuesService = new IssuesService(entityService);
+        IssuesTestData data = new IssuesTestData(entityService, issuesService);
+        Report testData = data.createTestData();
 
-        when(entityService.selectReportByToolIdAndOriginReportFile(anyString(), anyString())).thenReturn(Optional.of(issues));
+        when(entityService.selectReportByToolIdAndOriginReportFile(anyString(), anyString())).thenReturn(Optional.of(testData));
+
         return new IssuesService(entityService);
     }
 }

@@ -28,7 +28,6 @@ import edu.hm.hafner.java.db.EntityService;
 @Service
 public class IssuesService {
     private static final ParserRegistry PARSER_REGISTRY = new ParserRegistry();
-    private static final String FILENAME_DUMMY = "<<uploaded file>>";
 
     private final EntityService entityService;
 
@@ -97,25 +96,21 @@ public class IssuesService {
      *
      * @param tool
      *         ID of the static analysis tool
-     * @param file
-     *         the file to parse
      * @param reference
      *         a reference to the report, e.g. a URL of the build, a file name, etc.
+     * @param readerFactory
+     *         the reader factory to read the issues from
      *
      * @return a report with the issues of the specified file
      */
-    public Report parse(final String tool, final MultipartFile file, final String reference) {
+    public Report parse(final String tool, final String reference, final MultipartFileReaderFactory readerFactory) {
         ParserDescriptor descriptor = PARSER_REGISTRY.get(tool);
         IssueParser parser = descriptor.createParser();
-        Report report = parser.parse(getReaderFactory(file));
+
+        Report report = parser.parse(readerFactory);
         report.setOriginReportFile(reference);
         report.setOrigin(descriptor.getId(), descriptor.getName());
-        return entityService.insert(report);
-    }
-
-    private MultipartFileReaderFactory getReaderFactory(final MultipartFile file) {
-        return new MultipartFileReaderFactory(file,
-                StringUtils.defaultIfBlank(file.getOriginalFilename(), FILENAME_DUMMY), StandardCharsets.UTF_8);
+        return report;
     }
 
     /**
@@ -130,5 +125,15 @@ public class IssuesService {
             statistics.addRow(report);
         }
         return statistics;
+    }
+
+    /**
+     * Saves the {@link Report} in the database.
+     *
+     * @param report
+     *         to report to save in the database
+     */
+    public void save(final Report report) {
+        entityService.insert(report);
     }
 }
