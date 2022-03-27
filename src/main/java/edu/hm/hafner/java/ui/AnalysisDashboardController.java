@@ -46,9 +46,9 @@ public class AnalysisDashboardController {
      * @return the URL for the details page
      */
     @RequestMapping("/details")
-    String createDetails(@RequestParam("origin") final String origin,
+    String createDetails(@RequestParam("tool") final String tool,
             @RequestParam("reference") final String reference, final Model model) {
-        model.addAttribute("origin", origin);
+        model.addAttribute("tool", tool);
         model.addAttribute("reference", reference);
 
         return "details";
@@ -57,7 +57,7 @@ public class AnalysisDashboardController {
     /**
      * Shows a table with the uploaded reports.
      *
-     * @return the URL for the reports statistics page
+     * @return the URL for the report statistics page
      */
     @RequestMapping("/issues")
     String createIssues() {

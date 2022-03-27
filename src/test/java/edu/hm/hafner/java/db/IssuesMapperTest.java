@@ -48,7 +48,7 @@ class IssuesMapperTest {
     void mapIssuesToReportEntity() {
         Mapper mapper = new Mapper();
 
-        ReportEntity result = mapper.mapToEntity(ISSUES);
+        ReportEntity result = mapper.map(ISSUES);
 
         SoftAssertions softly = new SoftAssertions();
         assertIssuesAndEntityEqual(softly, result, ISSUES);
@@ -59,7 +59,7 @@ class IssuesMapperTest {
     void issuesRoundTrip() {
         Mapper mapper = new Mapper();
 
-        ReportEntity entity = mapper.mapToEntity(ISSUES);
+        ReportEntity entity = mapper.map(ISSUES);
 
         SoftAssertions softly = new SoftAssertions();
         assertIssuesAndEntityEqual(softly, entity, ISSUES);

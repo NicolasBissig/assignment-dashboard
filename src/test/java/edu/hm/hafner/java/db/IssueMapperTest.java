@@ -20,7 +20,7 @@ class IssueMapperTest {
 
         Issue issue = new IssueBuilder().build();
 
-        IssueEntity entity = mapper.mapToEntity(issue);
+        IssueEntity entity = mapper.map(issue);
 
         SoftAssertions softly = new SoftAssertions();
         assertIssueAndEntityEqual(softly, entity, issue);
@@ -32,7 +32,7 @@ class IssueMapperTest {
         Mapper mapper = new Mapper();
         Issue issue = new IssueBuilder().build();
 
-        IssueEntity entity = mapper.mapToEntity(issue);
+        IssueEntity entity = mapper.map(issue);
 
         SoftAssertions softly = new SoftAssertions();
         assertIssueAndEntityEqual(softly, entity, issue);
@@ -55,7 +55,7 @@ class IssueMapperTest {
         builder.setLineRanges(lineRanges);
 
         Issue issue = builder.build();
-        IssueEntity entity = mapper.mapToEntity(issue);
+        IssueEntity entity = mapper.map(issue);
 
         SoftAssertions softly = new SoftAssertions();
         assertIssueAndEntityEqual(softly, entity, issue);

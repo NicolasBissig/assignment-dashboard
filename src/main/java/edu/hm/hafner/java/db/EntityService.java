@@ -42,7 +42,6 @@ public class EntityService {
      * @param manager
      *         entity manager to use to build custom queries
      */
-    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     public EntityService(final IssueRepository issueRepository, final ReportRepository reportRepository,
             final Mapper mapper, final EntityManager manager) {
@@ -53,70 +52,71 @@ public class EntityService {
     }
 
     /**
-     * Insert a Issue object to database. If the id of the issue is still in the database an exception occurs. Inserts
-     * all related LineRanges if they are not present in the database. Returns a new object with the values of the
+     * Inserts an {@link Issue} object into the database. Returns a new copy of the object with the values from the
      * database.
      *
      * @param issue
-     *         to insert into the database
+     *         the issue to insert into the database
      *
      * @return new instance of the issue with the values of the database
      */
     public Issue insert(final Issue issue) {
-        IssueEntity entity = mapper.mapToEntity(issue);
-        issueRepository.save(entity);
-        return mapper.map(entity);
+        IssueEntity entity = mapper.map(issue);
+
+        IssueEntity saved = issueRepository.save(entity);
+
+        return mapper.map(saved);
     }
 
     /**
-     * Insert a Issues object to database. If the id of the report is still in the database an exception occurs. Inserts
-     * all related Issue entities if they are not present in the database. Returns a new object with the values of the
+     * Inserts a {@link Report} object into the database. Returns a new copy of the object with the values from the
      * database.
      *
      * @param report
-     *         to insert into the database
+     *         to report to insert into the database
      *
      * @return new instance of the report with the values of the database
      */
     public Report insert(final Report report) {
-        ReportEntity entity = mapper.mapToEntity(report);
+        ReportEntity entity = mapper.map(report);
+
         ReportEntity saved = reportRepository.save(entity);
 
         return mapper.map(saved);
     }
 
     /**
-     * Select all issue entities stored in the database.
+     * Selects all issues that are stored in the database.
      *
-     * @return set of all issue entities in the database.
+     * @return set of all issues in the database
      */
     public Set<Issue> selectAllIssues() {
         return issueRepository.findAll().stream().map(mapper::map).collect(toSet());
     }
 
     /**
-     * Select a single issue identified by the id.
+     * Selects a single issue identified by the id.
      *
      * @param id
      *         of the desired issue
      *
      * @return Optional with a new issue if it is present in the database else an empty optional.
      */
-    public Optional<Issue> selectIssue(final Integer id) {
+    public Optional<Issue> selectIssue(final int id) {
         return issueRepository.findById(id).map(mapper::map);
     }
 
     /**
-     * Select all issues entities stored in the database.
+     * Selects all reports that are stored in the database.
      *
-     * @return set of all issues entities in the database.
+     * @return set of all reports in the database
      */
     public Set<Report> selectAllReports() {
         return reportRepository.findAll().stream().map(mapper::map).collect(toSet());
     }
 
-    /*`*
-     * Select a single issue identified by the id.
+    /**
+     * Selects a single issue identified by the id.
      *
      * @param id
      *         of the desired issue
@@ -128,7 +128,7 @@ public class EntityService {
     }
 
     /**
-     * Selects all issues with the specified reference. The matching issues will be ordered by origin.
+     * Selects a report for the specified tool ID and report file.
      *
      * @param toolId
      *         ID of the static analysis tool
@@ -137,7 +137,8 @@ public class EntityService {
      *
      * @return the matching ordered list of issues
      */
-    public Optional<Report> selectReportByToolIdAndOriginReportFile(final String toolId, final String originReportFile) {
+    public Optional<Report> selectReportByToolIdAndOriginReportFile(final String toolId,
+            final String originReportFile) {
         return reportRepository.findByToolIdAndOriginReportFile(toolId, originReportFile).map(mapper::map);
 
     }
@@ -151,11 +152,5 @@ public class EntityService {
         TypedQuery<String> query = manager.createQuery(
                 "SELECT i.id FROM ReportEntity AS i", String.class);
         return query.getResultList();
-    }
-
-    public Report save(final Report report) {
-        ReportEntity entity = reportRepository.save(mapper.mapToEntity(report));
-
-        return mapper.map(entity);
     }
 }

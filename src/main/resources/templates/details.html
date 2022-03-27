@@ -7,7 +7,7 @@
         <div class="container">
 
             <div class="row py-3">
-                <h2 th:text="'Details for Static Analysis Run #' + ${origin} + '-' + ${reference}"></h2>
+                <h2 th:text="'Details for Static Analysis Run #' + ${tool} + '-' + ${reference}"></h2>
             </div>
 
             <div class="row py-3">
@@ -106,9 +106,11 @@
             <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.js"></script>
 
             <!-- Parameters are read by details.js -->
-            <!--/*@thymesVar id="origin" type="java.lang.String"*/-->
+            <!--/*@thymesVar id="tool" type="java.lang.String"*/-->
+            <!--/*@thymesVar id="toolName" type="java.lang.String"*/-->
             <!--/*@thymesVar id="reference" type="java.lang.String"*/-->
-            <div hidden id="origin" th:text="${origin}"></div>
+            <div hidden id="tool" th:text="${tool}"></div>
+            <div hidden id="toolName" th:text="${toolName}"></div>
             <div hidden id="reference" th:text="${reference}"></div>
             <!-- Parameters are read by details.js -->
 

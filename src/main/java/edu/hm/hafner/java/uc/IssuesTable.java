@@ -20,18 +20,19 @@ public class IssuesTable {
     /**
      * Adds a new row to this table.
      *
-     * @param issues
-     *         the set of issues that should be added
+     * @param report
+     *         the report to be added
      */
-    public void addRow(final Report issues) {
+    public void addRow(final Report report) {
         List<String> row = new ArrayList<>();
-        row.add(issues.getId());
-        row.add(issues.getName());
-        row.add(String.valueOf(issues.getSize()));
-        row.add(String.valueOf(issues.getSizeOf(Severity.ERROR)));
-        row.add(String.valueOf(issues.getSizeOf(Severity.WARNING_HIGH)));
-        row.add(String.valueOf(issues.getSizeOf(Severity.WARNING_NORMAL)));
-        row.add(String.valueOf(issues.getSizeOf(Severity.WARNING_LOW)));
+        row.add(report.getId());
+        row.add(report.getName());
+        row.add(report.getOriginReportFile());
+        row.add(String.valueOf(report.getSize()));
+        row.add(String.valueOf(report.getSizeOf(Severity.ERROR)));
+        row.add(String.valueOf(report.getSizeOf(Severity.WARNING_HIGH)));
+        row.add(String.valueOf(report.getSizeOf(Severity.WARNING_NORMAL)));
+        row.add(String.valueOf(report.getSizeOf(Severity.WARNING_LOW)));
 
         data.add(row);
     }

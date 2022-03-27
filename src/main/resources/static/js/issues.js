@@ -5,7 +5,7 @@ $(document).ready(
         });
         $('#issues tbody').on('click', 'tr', function () {
             var data = table.row( this ).data();
-            window.open("details?origin="+ data[0] +"&reference="+ data[1] , "Details Report");
+            window.open("details?tool="+ data[0] +"&reference="+ data[2] , "Details Report");
         } );
     }
 );

@@ -2,7 +2,6 @@ package edu.hm.hafner.java.db;
 
 import javax.persistence.EntityManager;
 import java.util.Optional;
-import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
@@ -72,7 +71,7 @@ class EntityServiceTest {
         IssueRepository issueRepository = mock(IssueRepository.class);
         ReportRepository reportRepository = mock(ReportRepository.class);
         EntityService sut = createEntityService(issueRepository, reportRepository);
-        when(reportRepository.findById(EXAMPLE_UUID)).thenReturn(Optional.of(MAPPER.mapToEntity(ISSUES)));
+        when(reportRepository.findById(EXAMPLE_UUID)).thenReturn(Optional.of(MAPPER.map(ISSUES)));
 
         Optional<Report> optionalResult = sut.selectReport(EXAMPLE_UUID);
 
@@ -87,8 +86,8 @@ class EntityServiceTest {
         IssueRepository issueRepository = mock(IssueRepository.class);
         ReportRepository reportRepository = mock(ReportRepository.class);
         EntityService sut = createEntityService(issueRepository, reportRepository);
-        when(issueRepository.findById(1)).thenReturn(Optional.of(MAPPER.mapToEntity(FIRST_ISSUE)));
-        ReportEntity entity = MAPPER.mapToEntity(ISSUES);
+        when(issueRepository.findById(1)).thenReturn(Optional.of(MAPPER.map(FIRST_ISSUE)));
+        ReportEntity entity = MAPPER.map(ISSUES);
         when(reportRepository.save(entity)).thenReturn(entity);
 
         Report saved = sut.insert(ISSUES);

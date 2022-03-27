@@ -1,7 +1,5 @@
 package edu.hm.hafner.java.uc;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
@@ -9,7 +7,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-import org.apache.commons.io.input.BOMInputStream;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,18 +27,20 @@ import edu.hm.hafner.java.db.EntityService;
  */
 @Service
 public class IssuesService {
-    private final EntityService issuesEntityService;
-    private final ParserRegistry parserRegistry = new ParserRegistry();
+    private static final ParserRegistry PARSER_REGISTRY = new ParserRegistry();
+    private static final String FILENAME_DUMMY = "<<uploaded file>>";
+
+    private final EntityService entityService;
 
     /**
      * Creates a new instance of {@link IssuesService}.
      *
-     * @param issuesEntityService
+     * @param entityService
      *         service to access the DB layer
      */
     @Autowired
-    public IssuesService(final EntityService issuesEntityService) {
-        this.issuesEntityService = issuesEntityService;
+    public IssuesService(final EntityService entityService) {
+        this.entityService = entityService;
     }
 
     /**
@@ -54,7 +54,7 @@ public class IssuesService {
      * @return number of issues per category
      */
     public IssuePropertyDistribution createDistributionByCategory(final String toolId, final String originFileName) {
-        Optional<Report> issues = issuesEntityService.selectReportByToolIdAndOriginReportFile(toolId, originFileName);
+        Optional<Report> issues = entityService.selectReportByToolIdAndOriginReportFile(toolId, originFileName);
         if (issues.isPresent()) {
             Map<String, Integer> counts = issues.get().getPropertyCount(Issue::getCategory);
 
@@ -74,7 +74,7 @@ public class IssuesService {
      * @return number of issues per type
      */
     public IssuePropertyDistribution createDistributionByType(final String toolId, final String originFileName) {
-        Optional<Report> issues = issuesEntityService.selectReportByToolIdAndOriginReportFile(toolId, originFileName);
+        Optional<Report> issues = entityService.selectReportByToolIdAndOriginReportFile(toolId, originFileName);
         if (issues.isPresent()) {
             Map<String, Integer> counts = issues.get().getPropertyCount(Issue::getType);
 
@@ -89,7 +89,7 @@ public class IssuesService {
      * @return all tools
      */
     public List<ParserDescriptor> findAllTools() {
-        return parserRegistry.getAllDescriptors();
+        return PARSER_REGISTRY.getAllDescriptors();
     }
 
     /**
@@ -99,20 +99,23 @@ public class IssuesService {
      *         ID of the static analysis tool
      * @param file
      *         the file to parse
-     * @param id
-     *         the ID for this report
+     * @param reference
+     *         a reference to the report, e.g. a URL of the build, a file name, etc.
      *
-     * @return the issues of the specified report
+     * @return a report with the issues of the specified file
      */
-    public Report parse(final String tool, final MultipartFile file, final String id) {
-        ParserDescriptor descriptor = parserRegistry.get(tool);
+    public Report parse(final String tool, final MultipartFile file, final String reference) {
+        ParserDescriptor descriptor = PARSER_REGISTRY.get(tool);
         IssueParser parser = descriptor.createParser();
-        Report report = parser.parse(new MultipartFileReaderFactory(file, id, StandardCharsets.UTF_8));
-        return issuesEntityService.save(report);
+        Report report = parser.parse(getReaderFactory(file));
+        report.setOriginReportFile(reference);
+        report.setOrigin(descriptor.getId(), descriptor.getName());
+        return entityService.insert(report);
     }
 
-    private InputStreamReader asStream(final InputStream file) {
-        return new InputStreamReader(new BOMInputStream(file), StandardCharsets.UTF_8);
+    private MultipartFileReaderFactory getReaderFactory(final MultipartFile file) {
+        return new MultipartFileReaderFactory(file,
+                StringUtils.defaultIfBlank(file.getOriginalFilename(), FILENAME_DUMMY), StandardCharsets.UTF_8);
     }
 
     /**
@@ -121,7 +124,7 @@ public class IssuesService {
      * @return a statistics table
      */
     public IssuesTable createIssuesStatistics() {
-        Set<Report> reports = issuesEntityService.selectAllReports();
+        Set<Report> reports = entityService.selectAllReports();
         IssuesTable statistics = new IssuesTable();
         for (Report report : reports) {
             statistics.addRow(report);

@@ -66,7 +66,7 @@ public class IssuesDetailController {
      *      }
      * </pre>
      *
-     * @param origin
+     * @param tool
      *         the origin of the issues instance to show the details for
      * @param reference
      *         the reference of the issues instance to show the details for
@@ -77,9 +77,9 @@ public class IssuesDetailController {
     @ResponseBody
     @SuppressWarnings("unused")
     // called by details.js
-    ResponseEntity<?> getCategories(@RequestParam("origin") final String origin,
+    ResponseEntity<?> getCategories(@RequestParam("tool") final String tool,
             @RequestParam("reference") final String reference) {
-        IssuePropertyDistribution model = issuesService.createDistributionByCategory(origin, reference);
+        IssuePropertyDistribution model = issuesService.createDistributionByCategory(tool, reference);
 
         Gson gson = new Gson();
         return ResponseEntity.ok(gson.toJson(model));
@@ -89,8 +89,8 @@ public class IssuesDetailController {
      * Ajax entry point: returns the number of issues per type (as JSON object). The returned JSON object is in the
      * expected format for the {@code data} property of a bar chart.
      *
-     * @param origin
-     *         the origin of the issues instance to show the details for
+     * @param tool
+     *         the tool of the issues to show the details for
      * @param reference
      *         the reference of the issues instance to show the details for
      *
@@ -100,9 +100,9 @@ public class IssuesDetailController {
     @ResponseBody
     @SuppressWarnings("unused")
     // called by details.js
-    ResponseEntity<?> getTypes(@RequestParam("origin") final String origin,
+    ResponseEntity<?> getTypes(@RequestParam("tool") final String tool,
             @RequestParam("reference") final String reference) {
-        IssuePropertyDistribution model = issuesService.createDistributionByType(origin, reference);
+        IssuePropertyDistribution model = issuesService.createDistributionByType(tool, reference);
 
         Gson gson = new Gson();
         return ResponseEntity.ok(gson.toJson(model));

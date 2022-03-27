@@ -1,5 +1,6 @@
 package edu.hm.hafner.java.ui;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,8 +19,6 @@ import edu.hm.hafner.java.uc.IssuesService;
  */
 @Controller
 public class UploadController {
-    static final String FILENAME_DUMMY = "<<uploaded file>>";
-
     @SuppressWarnings("InstanceVariableMayNotBeInitialized")
     private final IssuesService issuesService;
 
@@ -46,8 +45,9 @@ public class UploadController {
      *         the analysis report
      * @param tool
      *         the ID of the static analysis tool
-     * @param id
-     *         a unique ID for the report
+     * @param reference
+     *         an optional reference to the report, e.g. a URL of the build, etc. If left empty, then the filename will
+     *         be used as reference
      * @param model
      *         UI model, will be filled with {@code origin} and {@code  reference}
      *
@@ -56,12 +56,12 @@ public class UploadController {
     @RequestMapping(path = "/issues", method = RequestMethod.POST)
     String upload(@RequestParam("file") final MultipartFile file,
             @RequestParam("tool") final String tool,
-            @RequestParam("id") final String id,
+            @RequestParam(value = "reference", required = false) final String reference,
             final Model model) {
-        Report issues = issuesService.parse(tool, file, id);
+        Report report = issuesService.parse(tool, file, StringUtils.defaultIfBlank(reference, file.getOriginalFilename()));
 
-        model.addAttribute("origin", issues.getId());
-        model.addAttribute("reference", issues.getOriginReportFile());
+        model.addAttribute("tool", report.getId());
+        model.addAttribute("reference", report.getOriginReportFile());
 
         return "details";
     }

@@ -1,7 +1,6 @@
 package edu.hm.hafner.java.db;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -21,7 +20,7 @@ import edu.hm.hafner.analysis.Severity;
 @Service
 public class Mapper {
      /**
-     * Converts {@link ReportEntity} to a {@link Report}.
+     * Converts a {@link ReportEntity} to a {@link Report}.
      *
      * @param reportEntity
      *         the {@link ReportEntity}
@@ -44,10 +43,10 @@ public class Mapper {
      *
      * @return the converted {@link ReportEntity}
      */
-    public ReportEntity mapToEntity(final Report report) {
+    public ReportEntity map(final Report report) {
         ReportEntity reportEntity = new ReportEntity(report.getId(), report.getName(), report.getOriginReportFile());
         report.forEach(issue -> {
-            IssueEntity issueEntity = mapToEntity(issue);
+            IssueEntity issueEntity = map(issue);
             reportEntity.addIssueEntity(issueEntity);
         });
 
@@ -62,7 +61,7 @@ public class Mapper {
      *
      * @return the converted {@link IssueEntity}
      */
-    public IssueEntity mapToEntity(final Issue issue) {
+    public IssueEntity map(final Issue issue) {
         return new IssueEntity(
                 issue.getId(),
                 issue.getColumnStart(),

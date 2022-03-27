@@ -59,6 +59,7 @@ public class IssuesTestData {
      * @return the issues
      */
     public Report createTestData(final String reportFileName) {
+
         return new ParserRegistry().get("pmd")
                 .createParser()
                 .parse(new MultipartFileReaderFactory(getTestReport(reportFileName), reportFileName,
