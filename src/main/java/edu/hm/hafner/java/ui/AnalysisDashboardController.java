@@ -1,11 +1,16 @@
 package edu.hm.hafner.java.ui;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import edu.hm.hafner.analysis.registry.ParserDescriptor;
 import edu.hm.hafner.java.uc.IssuesService;
 
 /**
@@ -71,7 +76,9 @@ public class AnalysisDashboardController {
      */
     @RequestMapping("/upload")
     String createUpload(final Model model) {
-        model.addAttribute("tools", issuesService.findAllTools());
+        List<ParserDescriptor> allTools = issuesService.findAllTools();
+        allTools.sort(Comparator.comparing(ParserDescriptor::getName));
+        model.addAttribute("tools", allTools);
         return "upload";
     }
 }
