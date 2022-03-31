@@ -9,7 +9,7 @@ import org.springframework.core.io.FileUrlResource;
 import org.springframework.stereotype.Component;
 
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.java.MultipartFileReaderFactory;
+import edu.hm.hafner.java.util.InputStreamSourceReaderFactory;
 import edu.hm.hafner.java.db.EntityService;
 
 /**
@@ -63,7 +63,7 @@ public class IssuesTestData {
      */
     public Report createTestData(final String reportFileName) {
         return issuesService.parse("pmd", "Initial-Test-Report",
-                new MultipartFileReaderFactory(getTestReport(reportFileName), "Initial-Test-Report", StandardCharsets.UTF_8));
+                new InputStreamSourceReaderFactory(getTestReport(reportFileName), "Initial-Test-Report", StandardCharsets.UTF_8));
     }
 
     private FileUrlResource getTestReport(final String fileName) {

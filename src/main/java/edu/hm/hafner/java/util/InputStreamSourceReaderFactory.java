@@ -1,4 +1,4 @@
-package edu.hm.hafner.java;
+package edu.hm.hafner.java.util;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -7,20 +7,29 @@ import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 
 import org.springframework.core.io.InputStreamSource;
-import org.springframework.web.multipart.MultipartFile;
 
 import edu.hm.hafner.analysis.ReaderFactory;
 
 /**
- * FIXME: comment class.
+ * A {@link ReaderFactory} for {@link InputStreamSource} instances.
  *
  * @author Ullrich Hafner
  */
-public class MultipartFileReaderFactory extends ReaderFactory {
+public class InputStreamSourceReaderFactory extends ReaderFactory {
     private final InputStreamSource file;
     private final String fileName;
 
-    public MultipartFileReaderFactory(final InputStreamSource file, final String fileName, final Charset charset) {
+    /**
+     * Creates a new instance of {@link InputStreamSourceReaderFactory}.
+     *
+     * @param file
+     *         the input file to read
+     * @param fileName
+     *         the filename to use
+     * @param charset
+     *         the charset to use
+     */
+    public InputStreamSourceReaderFactory(final InputStreamSource file, final String fileName, final Charset charset) {
         super(charset);
 
         this.file = file;

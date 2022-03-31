@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.java.MultipartFileReaderFactory;
+import edu.hm.hafner.java.util.InputStreamSourceReaderFactory;
 import edu.hm.hafner.java.uc.IssuesService;
 
 /**
@@ -73,8 +73,8 @@ public class UploadController {
         return "details";
     }
 
-    private MultipartFileReaderFactory getReaderFactory(final MultipartFile file) {
-        return new MultipartFileReaderFactory(file,
+    private InputStreamSourceReaderFactory getReaderFactory(final MultipartFile file) {
+        return new InputStreamSourceReaderFactory(file,
                 StringUtils.defaultIfBlank(file.getOriginalFilename(), FILENAME_DUMMY), StandardCharsets.UTF_8);
     }
 }

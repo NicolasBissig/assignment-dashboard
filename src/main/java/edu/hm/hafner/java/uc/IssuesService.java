@@ -1,23 +1,20 @@
 package edu.hm.hafner.java.uc;
 
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.registry.ParserDescriptor;
 import edu.hm.hafner.analysis.registry.ParserRegistry;
-import edu.hm.hafner.java.MultipartFileReaderFactory;
+import edu.hm.hafner.java.util.InputStreamSourceReaderFactory;
 import edu.hm.hafner.java.db.EntityService;
 
 /**
@@ -103,7 +100,7 @@ public class IssuesService {
      *
      * @return a report with the issues of the specified file
      */
-    public Report parse(final String tool, final String reference, final MultipartFileReaderFactory readerFactory) {
+    public Report parse(final String tool, final String reference, final InputStreamSourceReaderFactory readerFactory) {
         ParserDescriptor descriptor = PARSER_REGISTRY.get(tool);
         IssueParser parser = descriptor.createParser();
 
