@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="AnalysisDashboard Postgres" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <option name="ACTIVE_PROFILES" value="production" />
+    <module name="assignment-dashboard" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="edu.hm.hafner.java.AnalysisDashboard" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
