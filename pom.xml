@@ -20,7 +20,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-    <codingstyle.config.version>2.19.0</codingstyle.config.version>
+    <codingstyle.config.version>2.20.0</codingstyle.config.version>
     <codingstyle.library.version>${codingstyle.config.version}</codingstyle.library.version>
 
     <modelmapper.version>3.1.0</modelmapper.version>
