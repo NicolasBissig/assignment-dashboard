@@ -1,6 +1,9 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="AnalysisDashboard InMemory" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
     <option name="ACTIVE_PROFILES" value="development" />
+    <envs>
+      <env name="PORT" value="5555" />
+    </envs>
     <module name="assignment-dashboard" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="edu.hm.hafner.java.AnalysisDashboard" />
     <method v="2">

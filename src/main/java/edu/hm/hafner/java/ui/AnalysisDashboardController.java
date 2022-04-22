@@ -1,6 +1,5 @@
 package edu.hm.hafner.java.ui;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 

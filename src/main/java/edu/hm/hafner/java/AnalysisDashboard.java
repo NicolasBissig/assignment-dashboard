@@ -2,6 +2,7 @@ package edu.hm.hafner.java;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 
 /**
  * Entry point for this Spring Boot Application.

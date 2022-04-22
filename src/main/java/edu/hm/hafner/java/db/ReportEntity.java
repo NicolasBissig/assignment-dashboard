@@ -1,15 +1,10 @@
 package edu.hm.hafner.java.db;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.ArrayList;
@@ -91,7 +86,8 @@ public class ReportEntity {
     /**
      * Setter to set the issues of the {@link ReportEntity}.
      *
-     * @param issues the issues
+     * @param issues
+     *         the issues
      */
     public void setIssues(final List<IssueEntity> issues) {
         this.issues = issues;
@@ -100,7 +96,9 @@ public class ReportEntity {
     /**
      * Adds a {@link IssueEntity} tho the {@link ReportEntity}.
      *
-     * @param issueEntity the {@link IssueEntity}
+     * @param issueEntity
+     *         the {@link IssueEntity}
+     *
      * @return the added {@link IssueEntity}
      */
     public IssueEntity addIssueEntity(final IssueEntity issueEntity) {

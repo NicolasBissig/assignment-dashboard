@@ -7,9 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import java.util.UUID;
-
-import org.hibernate.annotations.Type;
 
 /**
  * POJO to store a {@link IssueEntity} to the database.
@@ -52,27 +49,41 @@ public class IssueEntity {
     /**
      * Creates a new instance of {@link IssueEntity}.
      *
-     * @param id the id of the {@link IssueEntity}
-     * @param columnStart the column start of the {@link IssueEntity}
-     * @param columnEnd the column end of the {@link IssueEntity}
-     * @param lineStart the line start of the {@link IssueEntity}
-     * @param lineEnd the line end of the {@link IssueEntity}
-     * @param category the category of the {@link IssueEntity}
-     * @param description the description of the {@link IssueEntity}
-     * @param fileName the file name of the {@link IssueEntity}
-     * @param fingerprint the fingerprint of the {@link IssueEntity}
-     * @param message the message of the {@link IssueEntity}
-     * @param moduleName the module name of the {@link IssueEntity}
-     * @param origin the origin of the {@link IssueEntity}
-     * @param originName the name of the origin of the {@link IssueEntity}
-     * @param packageName the package name of the {@link IssueEntity}
-     * @param reference the reference of the {@link IssueEntity}
-     * @param severity the severity of the {@link IssueEntity}
-     * @param type the type of the {@link IssueEntity}
+     * @param columnStart
+     *         the column start of the {@link IssueEntity}
+     * @param columnEnd
+     *         the column end of the {@link IssueEntity}
+     * @param lineStart
+     *         the line start of the {@link IssueEntity}
+     * @param lineEnd
+     *         the line end of the {@link IssueEntity}
+     * @param category
+     *         the category of the {@link IssueEntity}
+     * @param description
+     *         the description of the {@link IssueEntity}
+     * @param fileName
+     *         the file name of the {@link IssueEntity}
+     * @param fingerprint
+     *         the fingerprint of the {@link IssueEntity}
+     * @param message
+     *         the message of the {@link IssueEntity}
+     * @param moduleName
+     *         the module name of the {@link IssueEntity}
+     * @param origin
+     *         the origin of the {@link IssueEntity}
+     * @param originName
+     *         the name of the origin of the {@link IssueEntity}
+     * @param packageName
+     *         the package name of the {@link IssueEntity}
+     * @param reference
+     *         the reference of the {@link IssueEntity}
+     * @param severity
+     *         the severity of the {@link IssueEntity}
+     * @param type
+     *         the type of the {@link IssueEntity}
      */
     @SuppressWarnings("checkstyle:ParameterNumber")
     public IssueEntity(
-            final UUID id,
             final int columnStart,
             final int columnEnd,
             final int lineStart,
@@ -89,7 +100,6 @@ public class IssueEntity {
             final String reference,
             final String severity,
             final String type) {
-//        this.id = id;
         this.category = category;
         this.columnStart = columnStart;
         this.columnEnd = columnEnd;
@@ -121,7 +131,8 @@ public class IssueEntity {
     /**
      * Setter for the {@link ReportEntity}.
      *
-     * @param issues the {@link ReportEntity}
+     * @param issues
+     *         the {@link ReportEntity}
      */
     public void setIssues(final ReportEntity issues) {
         this.issues = issues;
@@ -139,7 +150,8 @@ public class IssueEntity {
     /**
      * Setter for the UUID.
      *
-     * @param id the UUID
+     * @param id
+     *         the UUID
      */
     public void setId(final int id) {
         this.id = id;
@@ -157,7 +169,8 @@ public class IssueEntity {
     /**
      * Setter for the category of the {@link IssueEntity}.
      *
-     * @param category the category
+     * @param category
+     *         the category
      */
     public void setCategory(final String category) {
         this.category = category;
@@ -175,7 +188,8 @@ public class IssueEntity {
     /**
      * Setter to set the end fo the column for the {@link IssueEntity}.
      *
-     * @param columnEnd the end of the column
+     * @param columnEnd
+     *         the end of the column
      */
     public void setColumnEnd(final int columnEnd) {
         this.columnEnd = columnEnd;
@@ -193,7 +207,8 @@ public class IssueEntity {
     /**
      * Setter to set the start of the column for the {@link IssueEntity}.
      *
-     * @param columnStart the start of the column
+     * @param columnStart
+     *         the start of the column
      */
     public void setColumnStart(final int columnStart) {
         this.columnStart = columnStart;
@@ -211,7 +226,8 @@ public class IssueEntity {
     /**
      * Setter for the description of the {@link IssueEntity}.
      *
-     * @param description the description
+     * @param description
+     *         the description
      */
     public void setDescription(final String description) {
         this.description = description;
@@ -229,7 +245,8 @@ public class IssueEntity {
     /**
      * Setter for the file name of the {@link IssueEntity}.
      *
-     * @param fileName the file name
+     * @param fileName
+     *         the file name
      */
     public void setFileName(final String fileName) {
         this.fileName = fileName;
@@ -247,7 +264,8 @@ public class IssueEntity {
     /**
      * Setter for the fingerprint of the {@link IssueEntity}.
      *
-     * @param fingerprint the fingerprint
+     * @param fingerprint
+     *         the fingerprint
      */
     public void setFingerprint(final String fingerprint) {
         this.fingerprint = fingerprint;
@@ -265,7 +283,8 @@ public class IssueEntity {
     /**
      * Setter for the end of the line for the {@link IssueEntity}.
      *
-     * @param lineEnd the end of the line
+     * @param lineEnd
+     *         the end of the line
      */
     public void setLineEnd(final int lineEnd) {
         this.lineEnd = lineEnd;
@@ -283,7 +302,8 @@ public class IssueEntity {
     /**
      * Setter to set the start of the line for the {@link IssueEntity}.
      *
-     * @param lineStart the start of the line
+     * @param lineStart
+     *         the start of the line
      */
     public void setLineStart(final int lineStart) {
         this.lineStart = lineStart;
@@ -301,7 +321,8 @@ public class IssueEntity {
     /**
      * Setter to set the message for the {@link IssueEntity}.
      *
-     * @param message the message
+     * @param message
+     *         the message
      */
     public void setMessage(final String message) {
         this.message = message;
@@ -319,7 +340,8 @@ public class IssueEntity {
     /**
      * Setter to set the module name of the {@link IssueEntity}.
      *
-     * @param moduleName the module name
+     * @param moduleName
+     *         the module name
      */
     public void setModuleName(final String moduleName) {
         this.moduleName = moduleName;
@@ -337,7 +359,8 @@ public class IssueEntity {
     /**
      * Setter to set the origin of the {@link IssueEntity}.
      *
-     * @param origin the origin
+     * @param origin
+     *         the origin
      */
     public void setOrigin(final String origin) {
         this.origin = origin;
@@ -355,7 +378,8 @@ public class IssueEntity {
     /**
      * Setter to set the name of the origin of the {@link IssueEntity}.
      *
-     * @param originName the origin name
+     * @param originName
+     *         the origin name
      */
     public void setOriginName(final String originName) {
         this.originName = originName;
@@ -373,7 +397,8 @@ public class IssueEntity {
     /**
      * Setter to set the package name for the {@link IssueEntity}.
      *
-     * @param packageName the package name
+     * @param packageName
+     *         the package name
      */
     public void setPackageName(final String packageName) {
         this.packageName = packageName;
@@ -391,7 +416,8 @@ public class IssueEntity {
     /**
      * Setter to set the reference for the {@link IssueEntity}.
      *
-     * @param reference the reference
+     * @param reference
+     *         the reference
      */
     public void setReference(final String reference) {
         this.reference = reference;
@@ -409,7 +435,8 @@ public class IssueEntity {
     /**
      * Setter to set the severity of the {@link IssueEntity}.
      *
-     * @param severity the severity
+     * @param severity
+     *         the severity
      */
     public void setSeverity(final String severity) {
         this.severity = severity;
@@ -427,13 +454,15 @@ public class IssueEntity {
     /**
      * Setter to set the type of the {@link IssueEntity}.
      *
-     * @param type the type
+     * @param type
+     *         the type
      */
     public void setType(final String type) {
         this.type = type;
     }
 
     @Override
+    @SuppressWarnings("checkstyle:NPathComplexity")
     public boolean equals(final Object o) {
         if (this == o) {
             return true;

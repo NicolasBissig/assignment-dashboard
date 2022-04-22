@@ -1,12 +1,11 @@
 package edu.hm.hafner.java.db;
 
 import java.util.Optional;
-import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
- * JPA repository to access IssuesEntities.
+ * JPA repository to access {@link ReportEntity report entities}.
  *
  * @author Michael Schmid
  */

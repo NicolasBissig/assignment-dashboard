@@ -6,12 +6,11 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import edu.hm.hafner.analysis.Issue;
 
 /**
- * Model that provides the sizes of a set of {@link Issue issues}.
+ * Model that provides the totals for a set of {@link Issue issues}.
  *
  * @author Ullrich Hafner
  * @see <a href="http://www.chartjs.org/docs/latest/charts/bar.html#dataset-properties">Bar Chart Dataset</a>
@@ -31,10 +30,23 @@ public class IssuePropertyDistribution {
         this(counts.entrySet());
     }
 
+    /**
+     * Creates a new instance of {@link IssuePropertyDistribution}.
+     *
+     * @param entries
+     *         an array that maps properties to number of issues
+     */
+    @SafeVarargs
     public IssuePropertyDistribution(Map.Entry<String, Integer>... entries) {
         this(Arrays.asList(entries));
     }
 
+    /**
+     * Creates a new instance of {@link IssuePropertyDistribution}.
+     *
+     * @param entries
+     *         a collection that maps properties to number of issues
+     */
     public IssuePropertyDistribution(final Collection<Entry<String, Integer>> entries) {
         List<Integer> values = new ArrayList<>();
         for (Entry<String, Integer> entry : entries) {

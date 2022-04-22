@@ -63,7 +63,6 @@ public class Mapper {
      */
     public IssueEntity map(final Issue issue) {
         return new IssueEntity(
-                issue.getId(),
                 issue.getColumnStart(),
                 issue.getColumnEnd(),
                 issue.getLineStart(),
@@ -93,7 +92,6 @@ public class Mapper {
      */
     public Issue map(final IssueEntity issueEntity) {
         return getIssue(
-                issueEntity.getId(),
                 issueEntity.getCategory(),
                 issueEntity.getColumnEnd(),
                 issueEntity.getColumnStart(),
@@ -114,29 +112,29 @@ public class Mapper {
     }
 
     @SuppressWarnings("checkstyle:ParameterNumber")
-    private Issue getIssue(final int id, final String category, final int columnEnd, final int columnStart,
+    private Issue getIssue(final String category, final int columnEnd, final int columnStart,
             final String description, final String fileName, final String fingerprint, final int lineEnd,
             final int lineStart, final String message, final String moduleName, final String origin, final String originName,
             final String packageName, final String reference, final String severity, final String type) {
-        IssueBuilder issueBuilder = new IssueBuilder();
-
-        return issueBuilder
-                .setCategory(category)
-                .setColumnEnd(columnEnd)
-                .setColumnStart(columnStart)
-                .setDescription(description)
-                .setFileName(fileName)
-                .setFingerprint(fingerprint)
-                .setLineEnd(lineEnd)
-                .setLineStart(lineStart)
-                .setMessage(message)
-                .setModuleName(moduleName)
-                .setOrigin(origin)
-                .setOriginName(originName)
-                .setPackageName(packageName)
-                .setReference(reference)
-                .setSeverity(Severity.valueOf(severity))
-                .setType(type)
-                .build();
+        try (IssueBuilder issueBuilder = new IssueBuilder()) {
+            return issueBuilder
+                    .setCategory(category)
+                    .setColumnEnd(columnEnd)
+                    .setColumnStart(columnStart)
+                    .setDescription(description)
+                    .setFileName(fileName)
+                    .setFingerprint(fingerprint)
+                    .setLineEnd(lineEnd)
+                    .setLineStart(lineStart)
+                    .setMessage(message)
+                    .setModuleName(moduleName)
+                    .setOrigin(origin)
+                    .setOriginName(originName)
+                    .setPackageName(packageName)
+                    .setReference(reference)
+                    .setSeverity(Severity.valueOf(severity))
+                    .setType(type)
+                    .build();
+        }
     }
 }
