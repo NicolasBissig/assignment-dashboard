@@ -1,7 +1,7 @@
 package edu.hm.hafner.java.db;
 
-import javax.persistence.EntityManager;
 import java.util.Optional;
+import javax.persistence.EntityManager;
 
 import org.junit.jupiter.api.Test;
 
@@ -9,6 +9,7 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
+
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 

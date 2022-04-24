@@ -37,7 +37,7 @@ public class IssuePropertyDistribution {
      *         an array that maps properties to number of issues
      */
     @SafeVarargs
-    public IssuePropertyDistribution(Map.Entry<String, Integer>... entries) {
+    public IssuePropertyDistribution(final Map.Entry<String, Integer>... entries) {
         this(Arrays.asList(entries));
     }
 

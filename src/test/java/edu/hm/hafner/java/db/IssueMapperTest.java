@@ -16,54 +16,58 @@ import edu.hm.hafner.analysis.LineRangeList;
 class IssueMapperTest {
     @Test
     void mapIssueToIssueEntity() {
-        Mapper mapper = new Mapper();
+        try (IssueBuilder issueBuilder = new IssueBuilder()) {
+            Issue issue = issueBuilder.build();
 
-        Issue issue = new IssueBuilder().build();
+            Mapper mapper = new Mapper();
+            IssueEntity entity = mapper.map(issue);
 
-        IssueEntity entity = mapper.map(issue);
-
-        SoftAssertions softly = new SoftAssertions();
-        assertIssueAndEntityEqual(softly, entity, issue);
-        softly.assertAll();
+            SoftAssertions softly = new SoftAssertions();
+            assertIssueAndEntityEqual(softly, entity, issue);
+            softly.assertAll();
+        }
     }
 
     @Test
     void issueRoundTrip() {
-        Mapper mapper = new Mapper();
-        Issue issue = new IssueBuilder().build();
+        try (IssueBuilder issueBuilder = new IssueBuilder()) {
+            Issue issue = issueBuilder.build();
 
-        IssueEntity entity = mapper.map(issue);
+            Mapper mapper = new Mapper();
+            IssueEntity entity = mapper.map(issue);
 
-        SoftAssertions softly = new SoftAssertions();
-        assertIssueAndEntityEqual(softly, entity, issue);
+            SoftAssertions softly = new SoftAssertions();
+            assertIssueAndEntityEqual(softly, entity, issue);
 
-        Issue result = mapper.map(entity);
+            Issue result = mapper.map(entity);
 
-        assertRoundTrip(softly, result, issue);
-        softly.assertAll();
+            assertRoundTrip(softly, result, issue);
+            softly.assertAll();
+        }
     }
 
     @Test
     void issueRoundTripWithLineRangeList() {
-        Mapper mapper = new Mapper();
-        IssueBuilder builder = new IssueBuilder();
+        try (IssueBuilder builder = new IssueBuilder()) {
+            Mapper mapper = new Mapper();
 
-        builder.setLineStart(1).setLineEnd(2);
-        LineRangeList lineRanges = new LineRangeList();
-        lineRanges.add(new LineRange(3, 4));
-        lineRanges.add(new LineRange(5, 6));
-        builder.setLineRanges(lineRanges);
+            builder.setLineStart(1).setLineEnd(2);
+            LineRangeList lineRanges = new LineRangeList();
+            lineRanges.add(new LineRange(3, 4));
+            lineRanges.add(new LineRange(5, 6));
+            builder.setLineRanges(lineRanges);
 
-        Issue issue = builder.build();
-        IssueEntity entity = mapper.map(issue);
+            Issue issue = builder.build();
+            IssueEntity entity = mapper.map(issue);
 
-        SoftAssertions softly = new SoftAssertions();
-        assertIssueAndEntityEqual(softly, entity, issue);
+            SoftAssertions softly = new SoftAssertions();
+            assertIssueAndEntityEqual(softly, entity, issue);
 
-        Issue result = mapper.map(entity);
+            Issue result = mapper.map(entity);
 
-        assertRoundTrip(softly, result, issue);
-        softly.assertAll();
+            assertRoundTrip(softly, result, issue);
+            softly.assertAll();
+        }
     }
 
     private void assertRoundTrip(final SoftAssertions softly, final Issue result, final Issue expected) {

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,8 +15,8 @@ import edu.hm.hafner.analysis.IssueParser;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.registry.ParserDescriptor;
 import edu.hm.hafner.analysis.registry.ParserRegistry;
-import edu.hm.hafner.java.util.InputStreamSourceReaderFactory;
 import edu.hm.hafner.java.db.EntityService;
+import edu.hm.hafner.java.util.InputStreamSourceReaderFactory;
 
 /**
  * Provides services for a {@link Report}.
@@ -50,13 +51,7 @@ public class IssuesService {
      * @return number of issues per category
      */
     public IssuePropertyDistribution createDistributionByCategory(final String toolId, final String originFileName) {
-        Optional<Report> issues = entityService.selectReportByToolIdAndOriginReportFile(toolId, originFileName);
-        if (issues.isPresent()) {
-            Map<String, Integer> counts = issues.get().getPropertyCount(Issue::getCategory);
-
-            return new IssuePropertyDistribution(counts);
-        }
-        return new IssuePropertyDistribution(new HashMap<>()); // TODO: exception?
+        return getPropertyDistribution(toolId, originFileName, Issue::getCategory);
     }
 
     /**
@@ -70,9 +65,14 @@ public class IssuesService {
      * @return number of issues per type
      */
     public IssuePropertyDistribution createDistributionByType(final String toolId, final String originFileName) {
+        return getPropertyDistribution(toolId, originFileName, Issue::getType);
+    }
+
+    private IssuePropertyDistribution getPropertyDistribution(final String toolId, final String originFileName,
+            final Function<Issue, String> propertiesMapper) {
         Optional<Report> issues = entityService.selectReportByToolIdAndOriginReportFile(toolId, originFileName);
         if (issues.isPresent()) {
-            Map<String, Integer> counts = issues.get().getPropertyCount(Issue::getType);
+            Map<String, Integer> counts = issues.get().getPropertyCount(propertiesMapper);
 
             return new IssuePropertyDistribution(counts);
         }

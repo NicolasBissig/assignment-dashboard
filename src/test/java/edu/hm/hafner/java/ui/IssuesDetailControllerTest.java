@@ -6,10 +6,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.tngtech.archunit.thirdparty.com.google.common.collect.Maps;
-
 import edu.hm.hafner.java.uc.IssuePropertyDistribution;
 import edu.hm.hafner.java.uc.IssuesService;
+
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 

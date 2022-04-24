@@ -1,18 +1,19 @@
 package edu.hm.hafner.java.db;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.analysis.Report;
+
 import static java.util.stream.Collectors.*;
 
 /**

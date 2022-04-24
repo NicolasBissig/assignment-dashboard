@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.java.util.InputStreamSourceReaderFactory;
 import edu.hm.hafner.java.uc.IssuesService;
+import edu.hm.hafner.java.util.InputStreamSourceReaderFactory;
 
 /**
  * Uploads new issues reports.

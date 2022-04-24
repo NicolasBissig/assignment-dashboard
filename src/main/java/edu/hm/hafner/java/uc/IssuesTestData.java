@@ -1,16 +1,16 @@
 package edu.hm.hafner.java.uc;
 
-import javax.annotation.PostConstruct;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
+import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileUrlResource;
 import org.springframework.stereotype.Component;
 
 import edu.hm.hafner.analysis.Report;
-import edu.hm.hafner.java.util.InputStreamSourceReaderFactory;
 import edu.hm.hafner.java.db.EntityService;
+import edu.hm.hafner.java.util.InputStreamSourceReaderFactory;
 
 /**
  * Populates the database with test data.

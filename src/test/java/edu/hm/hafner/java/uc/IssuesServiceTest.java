@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.java.db.EntityService;
+
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
