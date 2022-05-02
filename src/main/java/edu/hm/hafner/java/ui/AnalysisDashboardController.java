@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -39,7 +41,7 @@ public class AnalysisDashboardController {
      *
      * @return the main page
      */
-    @RequestMapping("/")
+    @GetMapping("/")
     String index() {
         return "index";
     }
@@ -56,7 +58,7 @@ public class AnalysisDashboardController {
      *
      * @return the URL for the details page
      */
-    @RequestMapping("/details")
+    @GetMapping("/details")
     String createDetails(@RequestParam("tool") final String tool,
             @RequestParam("reference") final String reference, final Model model) {
         model.addAttribute("tool", tool);
@@ -70,7 +72,7 @@ public class AnalysisDashboardController {
      *
      * @return the URL for the report statistics page
      */
-    @RequestMapping("/issues")
+    @GetMapping("/issues")
     String createIssues() {
         return "issues";
     }
@@ -83,7 +85,7 @@ public class AnalysisDashboardController {
      *
      * @return the URL for the upload page
      */
-    @RequestMapping("/upload")
+    @GetMapping("/upload")
     String createUpload(final Model model) {
         List<ParserDescriptor> allTools = issuesService.findAllTools();
         allTools.sort(Comparator.comparing(ParserDescriptor::getName));

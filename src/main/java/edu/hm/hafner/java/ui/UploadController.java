@@ -6,6 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -60,7 +61,7 @@ public class UploadController {
      *
      * @return name of the details view
      */
-    @RequestMapping(path = "/issues", method = RequestMethod.POST)
+    @PostMapping(path = "/issues")
     String upload(@RequestParam("file") final MultipartFile file,
             @RequestParam("tool") final String tool,
             @RequestParam(value = "reference", required = false) final String reference,

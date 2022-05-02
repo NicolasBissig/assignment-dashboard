@@ -3,6 +3,7 @@ package edu.hm.hafner.java.ui;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -42,7 +43,7 @@ public class IssuesDetailController {
      *
      * @return issues statistics of all uploaded reports
      */
-    @RequestMapping(path = "/ajax/issues", method = RequestMethod.GET, produces = "application/json")
+    @GetMapping(path = "/ajax/issues", produces = "application/json")
     @ResponseBody
     @SuppressWarnings("unused")
     // called by issues.js
@@ -74,7 +75,7 @@ public class IssuesDetailController {
      *
      * @return the number of issues per category
      */
-    @RequestMapping(path = "/ajax/categories", method = RequestMethod.GET, produces = "application/json")
+    @GetMapping(path = "/ajax/categories", produces = "application/json")
     @ResponseBody
     @SuppressWarnings("unused")
     // called by details.js
@@ -97,7 +98,7 @@ public class IssuesDetailController {
      *
      * @return the number of issues per type
      */
-    @RequestMapping(path = "/ajax/types", method = RequestMethod.GET, produces = "application/json")
+    @GetMapping(path = "/ajax/types", produces = "application/json")
     @ResponseBody
     @SuppressWarnings("unused")
     // called by details.js
