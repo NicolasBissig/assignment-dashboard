@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import edu.hm.hafner.analysis.registry.ParserDescriptor;
 import edu.hm.hafner.java.uc.IssuesService;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Entry point for all direct web requests. Refer to {@link IssuesDetailController} in order to see the Ajax entry
@@ -19,6 +20,7 @@ import edu.hm.hafner.java.uc.IssuesService;
  * @author Ullrich Hafner
  */
 @Controller
+@SuppressFBWarnings("SPRING_ENDPOINT")
 public class AnalysisDashboardController {
     @SuppressWarnings("InstanceVariableMayNotBeInitialized")
     private final IssuesService issuesService;

@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.java.uc.IssuesService;
 import edu.hm.hafner.java.util.InputStreamSourceReaderFactory;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Uploads new issues reports.
@@ -20,6 +21,7 @@ import edu.hm.hafner.java.util.InputStreamSourceReaderFactory;
  * @author Ullrich Hafner
  */
 @Controller
+@SuppressFBWarnings("SPRING_ENDPOINT")
 public class UploadController {
     private static final String FILENAME_DUMMY = "<<uploaded file>>";
 

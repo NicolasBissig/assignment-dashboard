@@ -13,6 +13,7 @@ import edu.hm.hafner.analysis.Issue;
 import edu.hm.hafner.java.uc.IssuePropertyDistribution;
 import edu.hm.hafner.java.uc.IssuesService;
 import edu.hm.hafner.java.uc.IssuesTable;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Provides detail information for a specific set of {@link Issue issues}.
@@ -20,6 +21,7 @@ import edu.hm.hafner.java.uc.IssuesTable;
  * @author Ullrich Hafner
  */
 @Controller
+@SuppressFBWarnings("SPRING_ENDPOINT")
 public class IssuesDetailController {
     @SuppressWarnings("InstanceVariableMayNotBeInitialized")
     private final IssuesService issuesService;
