@@ -59,7 +59,7 @@
     <spotbugs-maven-plugin.version>4.6.0.0</spotbugs-maven-plugin.version>
     <findsecbugs-plugin.version>1.12.0</findsecbugs-plugin.version>
     <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
-    <maven-pitest-plugin.version>1.7.4</maven-pitest-plugin.version>
+    <maven-pitest-plugin.version>1.7.5</maven-pitest-plugin.version>
     <pitest-junit5-plugin.version>0.15</pitest-junit5-plugin.version>
     <error-prone.version>2.11.0</error-prone.version>
     <nullaway.version>0.9.6</nullaway.version>
@@ -602,16 +602,21 @@
         <plugin>
           <groupId>org.pitest</groupId>
           <artifactId>pitest-maven</artifactId>
-          <version>${pitest-maven-plugin.version}</version>
+          <version>${maven-pitest-plugin.version}</version>
           <dependencies>
             <dependency>
               <groupId>org.pitest</groupId>
               <artifactId>pitest-junit5-plugin</artifactId>
-              <version>${pitest-maven.junit5.plugin}</version>
+              <version>${pitest-junit5-plugin.version}</version>
             </dependency>
           </dependencies>
           <configuration>
             <outputFormats>XML,HTML</outputFormats>
+            <excludedMethods>
+              <param>*equals</param>
+              <param>*hashCode</param>
+              <param>*toString</param>
+            </excludedMethods>
           </configuration>
         </plugin>
       </plugins>
