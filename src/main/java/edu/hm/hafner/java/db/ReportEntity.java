@@ -12,12 +12,15 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * POJO to store a {@link ReportEntity} to the database.
  */
 @Entity
 @Table(name = "report")
+@SuppressWarnings("PMD.DataClass")
+@SuppressFBWarnings("NP")
 public class ReportEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

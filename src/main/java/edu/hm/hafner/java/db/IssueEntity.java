@@ -9,6 +9,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * POJO to store a {@link IssueEntity} to the database.
@@ -17,6 +18,8 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
  */
 @Entity
 @Table(name = "issues")
+@SuppressWarnings({"PMD.GodClass", "PMD.TooManyFields"})
+@SuppressFBWarnings("NP")
 public class IssueEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -464,7 +467,7 @@ public class IssueEntity {
     }
 
     @Override
-    @SuppressWarnings("checkstyle:NPathComplexity")
+    @SuppressWarnings("all")
     public boolean equals(@CheckForNull final Object o) {
         if (this == o) {
             return true;
