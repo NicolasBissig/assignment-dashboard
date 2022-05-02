@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+
 /**
  * POJO to store a {@link IssueEntity} to the database.
  *
@@ -463,7 +465,7 @@ public class IssueEntity {
 
     @Override
     @SuppressWarnings("checkstyle:NPathComplexity")
-    public boolean equals(final Object o) {
+    public boolean equals(@CheckForNull final Object o) {
         if (this == o) {
             return true;
         }

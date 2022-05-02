@@ -3,6 +3,7 @@
     Checkstyle-Configuration: Ullrich Hafner
     Description: Ullrich Hafner's Checkstyle Rules.
 -->
+<!-- ${project.groupId}:${project.artifactId}:${project.version} -->
 <!DOCTYPE module PUBLIC "-//Puppy Crawl//DTD Check Configuration 1.2//EN"
         "http://www.puppycrawl.com/dtds/configuration_1_2.dtd">
 <module name="Checker">
@@ -10,6 +11,12 @@
   <module name="TreeWalker">
     <module name="SuppressWarningsHolder" />
 
+    <module name="NoWhitespaceBeforeCaseDefaultColon"/>
+    <module name="UnnecessarySemicolonAfterOuterTypeDeclaration"/>
+    <module name="UnnecessarySemicolonInTryWithResources"/>
+    <module name="UnnecessarySemicolonInEnumeration"/>
+    <module name="AvoidDoubleBraceInitialization"/>
+    <module name="NoEnumTrailingComma"/>
     <module name="OneStatementPerLine"/>
     <module name="OuterTypeFilename"/>
     <module name="NestedForDepth">
@@ -20,26 +27,33 @@
     <module name="AnnotationUseStyle"/>
     <module name="Indentation">
       <property name="arrayInitIndent" value="8"/>
+      <property name="lineWrappingIndentation" value="8"/>
     </module>
     <module name="MissingDeprecated"/>
     <module name="PackageAnnotation"/>
     <module name="EqualsAvoidNull"/>
     <module name="GenericWhitespace"/>
-    <module name="JavadocType"/>
-    <module name="JavadocMethod">
-      <property name="scope" value="protected"/>
-      <property name="allowUndeclaredRTE" value="true"/>
-      <property name="allowMissingPropertyJavadoc" value="true"/>
-    </module>
-    <module name="JavadocVariable">
-      <property name="scope" value="protected"/>
-    </module>
     <module name="JavadocStyle">
       <property name="severity" value="warning"/>
-    </module>
-    <module name="JavadocStyle">
       <property name="checkEmptyJavadoc" value="true"/>
     </module>
+    <module name="JavadocType"/>
+    <module name="JavadocMethod"/>
+    <module name="JavadocParagraph"/>
+    <module name="JavadocVariable">
+      <property name="scope" value="protected"/>
+      <property name="tokens" value="VARIABLE_DEF"/>
+    </module>
+    <module name="MissingJavadocMethodCheck">
+      <property name="allowMissingPropertyJavadoc" value="true"/>
+    </module>
+    <module name="MissingJavadocTypeCheck"/>
+    <module name="MissingJavadocPackageCheck"/>
+    <module name="JavadocMissingLeadingAsteriskCheck"/>
+    <module name="JavadocMissingWhitespaceAfterAsteriskCheck"/>
+    <module name="JavadocContentLocationCheck"/>
+    <module name="JavadocBlockTagLocation"/>
+    <module name="InvalidJavadocPosition"/>
     <module name="ConstantName"/>
     <module name="LocalFinalVariableName"/>
     <module name="LocalVariableName"/>
@@ -48,15 +62,25 @@
     <module name="PackageName"/>
     <module name="ParameterName"/>
     <module name="StaticVariableName"/>
+    <module name="LambdaParameterName"/>
     <module name="TypeName"/>
     <module name="ClassTypeParameterName"/>
     <module name="MethodTypeParameterName"/>
     <module name="AnonInnerLength">
       <property name="max" value="10"/>
     </module>
+    <module name="LambdaBodyLength">
+      <property name="max" value="10"/>
+    </module>
     <module name="MethodLength"/>
     <module name="ParameterNumber"/>
     <module name="EmptyForIteratorPad"/>
+    <module name="EmptyLineSeparator">
+      <property name="allowMultipleEmptyLines" value="false"/>
+      <property name="allowMultipleEmptyLinesInsideClassMembers" value="false"/>
+      <property name="allowNoEmptyLineBetweenFields" value="true"/>
+    </module>
+
     <module name="NoWhitespaceAfter">
       <property name="tokens" value="ARRAY_INIT,BNOT,DEC,DOT,INC,LNOT,UNARY_MINUS,UNARY_PLUS"/>
     </module>
@@ -103,7 +127,6 @@
     </module>
     <module name="IllegalThrows"/>
     <module name="InnerAssignment"/>
-    <module name="MissingSwitchDefault"/>
     <module name="ModifiedControlVariable"/>
     <module name="MultipleVariableDeclarations"/>
     <module name="NestedTryDepth"/>
@@ -118,7 +141,6 @@
     <module name="SuperClone"/>
     <module name="SuperFinalize"/>
     <module name="UnnecessaryParentheses"/>
-    <module name="FinalClass"/>
     <module name="HideUtilityClassConstructor"/>
     <module name="InterfaceIsType"/>
     <module name="MutableException"/>
@@ -134,15 +156,13 @@
       <property name="max" value="25"/>
     </module>
     <module name="JavaNCSS"/>
-    <module name="NPathComplexity"/>
     <module name="ArrayTypeStyle"/>
     <module name="UpperEll"/>
     <module name="IllegalCatch"/>
     <module name="IllegalImport">
-      <property name="illegalPkgs" value="junit"/>
-    </module>
-    <module name="IllegalImport">
-      <property name="illegalPkgs" value="net.jcip.annotations"/>
+      <property name="illegalPkgs" value="net.jcip.annotations, javax.annotation"/>
+      <property name="illegalClasses" value="edu.umd.cs.findbugs.annotations.Nullable"/>
+      <property name="severity" value="error"/>
     </module>
   </module>
   <module name="FileTabCharacter">

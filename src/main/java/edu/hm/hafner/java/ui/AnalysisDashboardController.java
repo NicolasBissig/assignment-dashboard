@@ -47,6 +47,13 @@ public class AnalysisDashboardController {
     /**
      * Shows the details for one static analysis run.
      *
+     * @param tool
+     *         the origin of the issues instance to show the details for
+     * @param reference
+     *         the reference of the issues instance to show the details for
+     * @param model
+     *         UI model, will be filled with {@code tool} and {@code  reference}
+     *
      * @return the URL for the details page
      */
     @RequestMapping("/details")
@@ -70,6 +77,9 @@ public class AnalysisDashboardController {
 
     /**
      * Shows a form to upload a new report.
+     *
+     * @param model
+     *         UI model, will be filled with {@code tools}
      *
      * @return the URL for the upload page
      */

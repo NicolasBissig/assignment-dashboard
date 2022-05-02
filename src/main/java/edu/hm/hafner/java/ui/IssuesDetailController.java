@@ -37,7 +37,7 @@ public class IssuesDetailController {
     }
 
     /**
-     * Ajax entry point: returns a table with statistics of the uploaded reports (as JSON object). The returned JSON
+     * AJAX entry point: returns a table with statistics of the uploaded reports (as JSON object). The returned JSON
      * object is in the expected format for the {@code data} property of a DataTable.
      *
      * @return issues statistics of all uploaded reports
@@ -54,10 +54,12 @@ public class IssuesDetailController {
     }
 
     /**
-     * Ajax entry point: returns the number of issues per category (as JSON object). The returned JSON object is in the
+     * AJAX entry point: returns the number of issues per category (as JSON object). The returned JSON object is in the
      * expected format for the {@code data} property of a bar chart.
+     *
      * <p>
      * Example:
+     * </p>
      * <pre>
      *     { "labels" : ["Design","Documentation","Best Practices","Performance","Code Style","Error Prone"],
      *      "datasets" : [
@@ -65,7 +67,6 @@ public class IssuesDetailController {
      *      ]
      *      }
      * </pre>
-     *
      * @param tool
      *         the origin of the issues instance to show the details for
      * @param reference

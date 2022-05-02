@@ -40,8 +40,10 @@ public class UploadController {
 
     /**
      * Uploads a static analysis report via curl or a web form.
+     *
      * <p>
      * Example:
+     * </p>
      * <pre>
      *     curl -F "file=@checkstyle-result.xml" -F"tool=checkstyle" https://[id].herokuapp.com/issues
      * </pre>
@@ -54,7 +56,7 @@ public class UploadController {
      *         an optional reference to the report, e.g. a URL of the build, etc. If left empty, then the filename will
      *         be used as reference
      * @param model
-     *         UI model, will be filled with {@code origin} and {@code  reference}
+     *         UI model, will be filled with {@code tool} and {@code  reference}
      *
      * @return name of the details view
      */

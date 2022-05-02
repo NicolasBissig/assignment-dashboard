@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import edu.umd.cs.findbugs.annotations.CheckForNull;
+
 /**
  * POJO to store a {@link ReportEntity} to the database.
  */
@@ -109,7 +111,7 @@ public class ReportEntity {
     }
 
     @Override
-    public boolean equals(final Object o) {
+    public boolean equals(@CheckForNull final Object o) {
         if (this == o) {
             return true;
         }
