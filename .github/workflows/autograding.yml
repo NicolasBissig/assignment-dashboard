@@ -20,6 +20,8 @@ jobs:
           cache: 'maven'
       - name: Compile, Test and Analysis
         run: mvn -V -ntp clean verify -Dmaven.test.failure.ignore=true
+      - name: Mutation Coverage
+        run: mvn -V -ntp org.pitest:pitest-maven:mutationCoverage
       - name: Autograding
         uses: uhafner/autograding-github-action@v1.7.0
         with:
