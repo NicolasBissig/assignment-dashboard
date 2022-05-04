@@ -1,6 +1,5 @@
 package edu.hm.hafner.java.uc;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -17,6 +16,7 @@ import edu.hm.hafner.analysis.registry.ParserDescriptor;
 import edu.hm.hafner.analysis.registry.ParserRegistry;
 import edu.hm.hafner.java.db.EntityService;
 import edu.hm.hafner.java.util.InputStreamSourceReaderFactory;
+import edu.hm.hafner.util.NoSuchElementException;
 
 /**
  * Provides services for a {@link Report}.
@@ -76,7 +76,7 @@ public class IssuesService {
 
             return new IssuePropertyDistribution(counts);
         }
-        return new IssuePropertyDistribution(new HashMap<>()); // TODO: exception?
+        throw new NoSuchElementException("No report with origin %s and filename %s", originFileName, toolId);
     }
 
     /**
