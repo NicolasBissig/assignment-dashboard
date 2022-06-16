@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="CheckStyle-IDEA">
-    <option name="configuration">
-      <map>
-        <entry key="active-configuration-0" value="LOCAL_FILE:$PRJ_DIR$/etc/checkstyle-configuration.xml:Ullrich Hafner's CheckStyle Configuration;All" />
-        <entry key="checkstyle-version" value="8.2" />
-        <entry key="copy-libs" value="false" />
-        <entry key="location-0" value="BUNDLED:(bundled):Sun Checks;All" />
-        <entry key="location-1" value="BUNDLED:(bundled):Google Checks;All" />
-        <entry key="location-2" value="LOCAL_FILE:$PRJ_DIR$/etc/checkstyle-configuration.xml:Ullrich Hafner's CheckStyle Configuration;All" />
-        <entry key="scan-before-checkin" value="true" />
-        <entry key="scanscope" value="JavaOnlyWithTests" />
-        <entry key="suppress-errors" value="false" />
-      </map>
+  <component name="CheckStyle-IDEA" serialisationVersion="2">
+    <checkstyleVersion>10.3</checkstyleVersion>
+    <scanScope>JavaOnlyWithTests</scanScope>
+    <scanBeforeCheckin>true</scanBeforeCheckin>
+    <option name="thirdPartyClasspath" />
+    <option name="activeLocationIds">
+      <option value="1549b417-6689-4608-bba4-6f253af9cafd" />
+    </option>
+    <option name="locations">
+      <list>
+        <ConfigurationLocation id="a49d60e9-bf14-4b64-9f1a-6539b78bd4b7" type="BUNDLED" scope="All" description="Sun Checks">(bundled)</ConfigurationLocation>
+        <ConfigurationLocation id="36531929-d370-4fc1-a8d4-1a555b8906a4" type="BUNDLED" scope="All" description="Google Checks">(bundled)</ConfigurationLocation>
+        <ConfigurationLocation id="1549b417-6689-4608-bba4-6f253af9cafd" type="LOCAL_FILE" scope="All" description="Ullrich Hafner's CheckStyle Configuration">$PRJ_DIR$/etc/checkstyle-configuration.xml</ConfigurationLocation>
+      </list>
     </option>
   </component>
 </project>
