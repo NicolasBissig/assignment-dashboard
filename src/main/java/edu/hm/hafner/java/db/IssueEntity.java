@@ -48,7 +48,6 @@ public class IssueEntity {
      * Creates a new instance of {@link IssueEntity}.
      */
     public IssueEntity() {
-        issues = new ReportEntity();
     }
 
     /**
@@ -121,7 +120,6 @@ public class IssueEntity {
         this.reference = reference;
         this.severity = severity;
         this.type = type;
-        issues = new ReportEntity();
     }
 
     /**
