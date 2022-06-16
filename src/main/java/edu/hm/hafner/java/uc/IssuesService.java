@@ -17,6 +17,7 @@ import edu.hm.hafner.analysis.registry.ParserRegistry;
 import edu.hm.hafner.java.db.EntityService;
 import edu.hm.hafner.java.util.InputStreamSourceReaderFactory;
 import edu.hm.hafner.util.NoSuchElementException;
+import edu.hm.hafner.util.VisibleForTesting;
 
 /**
  * Provides services for a {@link Report}.
@@ -68,7 +69,8 @@ public class IssuesService {
         return getPropertyDistribution(toolId, originFileName, Issue::getType);
     }
 
-    private IssuePropertyDistribution getPropertyDistribution(final String toolId, final String originFileName,
+    @VisibleForTesting
+    IssuePropertyDistribution getPropertyDistribution(final String toolId, final String originFileName,
             final Function<Issue, String> propertiesMapper) {
         Optional<Report> issues = entityService.selectReportByToolIdAndOriginReportFile(toolId, originFileName);
         if (issues.isPresent()) {
