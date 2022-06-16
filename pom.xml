@@ -40,6 +40,7 @@
     <archunit.version>0.23.1</archunit.version>
     <slf4j-simple.version>1.7.30</slf4j-simple.version>
     <equalsverifier.version>3.9</equalsverifier.version>
+    <json-unit-assertj.version>2.32.0</json-unit-assertj.version>
 
     <!-- Maven Plug-ins Configuration -->
     <maven-deploy-plugin.version>3.0.0-M2</maven-deploy-plugin.version>
@@ -154,6 +155,11 @@
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-params</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-engine</artifactId>
       <scope>test</scope>
     </dependency>
@@ -173,15 +179,13 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>com.toomuchcoding.jsonassert</groupId>
-      <artifactId>jsonassert</artifactId>
-      <version>0.6.1</version>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-test</artifactId>
-      <version>5.3.19</version>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-test-autoconfigure</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -190,6 +194,32 @@
       <version>${archunit.version}</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>com.tngtech.archunit</groupId>
+      <artifactId>archunit-junit5</artifactId>
+      <version>${archunit.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>edu.hm.hafner</groupId>
+      <artifactId>codingstyle</artifactId>
+      <version>${codingstyle.library.version}</version>
+      <classifier>tests</classifier>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>net.javacrumbs.json-unit</groupId>
+      <artifactId>json-unit-assertj</artifactId>
+      <version>${json-unit-assertj.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>net.javacrumbs.json-unit</groupId>
+      <artifactId>json-unit-json-path</artifactId>
+      <version>${json-unit-assertj.version}</version>
+      <scope>test</scope>
+    </dependency>
+
   </dependencies>
 
   <build>
