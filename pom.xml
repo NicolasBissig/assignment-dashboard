@@ -40,7 +40,7 @@
     <archunit.version>0.23.1</archunit.version>
     <slf4j-simple.version>1.7.30</slf4j-simple.version>
     <equalsverifier.version>3.9</equalsverifier.version>
-    <json-unit-assertj.version>2.32.0</json-unit-assertj.version>
+    <json-unit-assertj.version>2.35.0</json-unit-assertj.version>
 
     <!-- Maven Plug-ins Configuration -->
     <maven-deploy-plugin.version>3.0.0-M2</maven-deploy-plugin.version>
