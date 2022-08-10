@@ -533,7 +533,7 @@
       <plugin>
         <groupId>com.github.ferstl</groupId>
         <artifactId>depgraph-maven-plugin</artifactId>
-        <version>4.0.1</version>
+        <version>4.0.2</version>
         <configuration>
           <graphFormat>puml</graphFormat>
         </configuration>
