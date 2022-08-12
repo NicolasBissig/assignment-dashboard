@@ -20,7 +20,7 @@ import static org.mockito.Mockito.*;
 /**
  * Tests the class {@link IssuesDetailController}.
  *
- * @author Lukas Härtinger
+ * @author Ullrich Hafner
  */
 class IssuesDetailControllerTest {
     private static final String LABEL = "label";
