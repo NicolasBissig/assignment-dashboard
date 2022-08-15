@@ -149,9 +149,9 @@ public class EntityService {
      *
      * @return list of references
      */
-    public List<String> findAllReferences() {
-        TypedQuery<String> query = manager.createQuery(
-                "SELECT i.id FROM ReportEntity AS i", String.class);
+    public List<Integer> findAllReferences() {
+        TypedQuery<Integer> query = manager.createQuery(
+                "SELECT i.id FROM ReportEntity AS i", Integer.class);
         return query.getResultList();
     }
 }
