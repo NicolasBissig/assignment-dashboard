@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import edu.hm.hafner.analysis.Issue;
+import edu.hm.hafner.analysis.IssueBuilder;
 import edu.hm.hafner.analysis.Report;
 import edu.hm.hafner.analysis.Severity;
 import edu.hm.hafner.java.uc.IssuePropertyDistribution;
@@ -38,6 +40,22 @@ class IssuesDetailControllerTest {
     private static final String REPORT_ID = "REPORT_ID";
     private static final String REPORT_NAME = "REPORT_NAME";
     private static final String REPORT_ORIGIN_FILE = "REPORT_ORIGIN_FILE";
+
+    private static final IssuesTable EMPTY_ISSUE_TABLE
+            = new IssuesTable();
+
+    private static final Issue ISSUE_HIGH = new IssueBuilder().setMessage("issue-1")
+            .setFileName("file-1")
+            .setSeverity(Severity.WARNING_HIGH)
+            .build();
+    private static final Issue ISSUE_NORMAL = new IssueBuilder().setMessage("issue-2")
+            .setFileName("file-1")
+            .setSeverity(Severity.WARNING_NORMAL)
+            .build();
+    private static final Issue ISSUE_LOW = new IssueBuilder().setMessage("issue-4")
+            .setFileName("file-2")
+            .setSeverity(Severity.WARNING_LOW)
+            .build();
 
     @Test
     void shouldReturnJsonOfPropertiesDistribution() {
@@ -131,5 +149,60 @@ class IssuesDetailControllerTest {
                             String.valueOf(report.getSizeOf(Severity.WARNING_NORMAL)),
                             String.valueOf(report.getSizeOf(Severity.WARNING_LOW)));
         }
+    }
+
+    @Test
+    void shouldReturnEmptyJsonOfIssueTable() {
+        // Given
+        IssuesService issuesService = mock(IssuesService.class);
+        IssuesDetailController controller = new IssuesDetailController(issuesService);
+        when(issuesService.createIssuesStatistics()).thenReturn(EMPTY_ISSUE_TABLE);
+        // When
+        ResponseEntity<?> response = controller.getIssues();
+        //Then
+        assertThatIssueResponseIsEmpty(response);
+    }
+
+    @Test
+    void shouldReturnJsonOfIssueTable() {
+        // Given
+        IssuesService issuesService = mock(IssuesService.class);
+        IssuesDetailController controller = new IssuesDetailController(issuesService);
+
+        // Reports
+        Report emptyReport = new Report("1", "emptyReport", "path1");
+        Report fullReport = new Report("2", "fullReport", "path2");
+        fullReport.addAll(ISSUE_HIGH, ISSUE_NORMAL, ISSUE_LOW);
+        // Issue Table
+        IssuesTable table = new IssuesTable();
+        table.addRow(emptyReport);
+        table.addRow(fullReport);
+
+        when(issuesService.createIssuesStatistics()).thenReturn(table);
+        // When
+        ResponseEntity<?> response = controller.getIssues();
+        //Then
+        assertThatIssueResponseContainsReports(response, emptyReport, fullReport);
+    }
+
+    private void assertThatIssueResponseContainsReports(final ResponseEntity<?> issueResponse,
+            final Report... reports) {
+        assertThat(issueResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
+        StringBuilder issuesAsStringRepresentation = new StringBuilder();
+        for (Report i : reports) {
+            issuesAsStringRepresentation.append(
+                    String.format("[\"%s\",\"%s\",\"%s\",\"%d\",\"%d\",\"%d\",\"%d\",\"%d\"],", i.getId(), i.getName(),
+                            i.getOriginReportFile(),
+                            i.getSize(),
+                            i.getSizeOf(Severity.ERROR), i.getSizeOf(Severity.WARNING_HIGH),
+                            i.getSizeOf(Severity.WARNING_NORMAL), i.getSizeOf(Severity.WARNING_LOW)));
+        }
+        issuesAsStringRepresentation.deleteCharAt(issuesAsStringRepresentation.length() - 1);
+        assertThatResponseIsEqualTo(issueResponse, String.format("{\"data\":[%s]}", issuesAsStringRepresentation));
+    }
+
+    private void assertThatIssueResponseIsEmpty(final ResponseEntity<?> issueResponse) {
+        assertThat(issueResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThatResponseIsEqualTo(issueResponse, "{\"data\":[]}");
     }
 }
